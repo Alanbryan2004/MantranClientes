@@ -1,376 +1,122 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mantran - Tracking Notas Fiscais</title>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Localize Cargas</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-    }
-    body, html {
-      margin: 0; padding: 0;
+    body {
+      margin: 0;
+      padding: 0;
       font-family: Arial, sans-serif;
-      height: 100%;
       background: linear-gradient(to right, #8B0000, #000000);
-      color: #000;
-    }
-    .container {
-      display: flex;
+      color: white;
       height: 100vh;
-      width: 100%;
-    }
-    /* SIDEBAR */
-    .sidebar {
-      width: 250px;
-      background: #fff;
-      color: #000;
-      position: fixed;
-      top: 0; left: 0; bottom: 0;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.3);
-      z-index: 999;
-      transform: translateX(-100%);
-      transition: transform 0.3s ease;
-      overflow-y: auto;
       display: flex;
       flex-direction: column;
-    }
-    .sidebar.active {
-      transform: translateX(0);
-    }
-    .sidebar-header {
-      background: linear-gradient(to right, #8B0000, #000000);
-      color: white;
-      padding: 20px;
-      text-align: center;
-      flex-shrink: 0;
-    }
-    .sidebar-header img {
-      width: 60px;
-      margin-bottom: 10px;
-    }
-    .menu-item {
-      padding: 15px 20px;
-      cursor: pointer;
-      display: flex;
       align-items: center;
-      font-weight: 500;
-      color: #000;
-      border-bottom: 1px solid #ddd;
-      transition: background 0.2s;
+      justify-content: center;
     }
-    .menu-item i {
-      margin-right: 10px;
+
+    .container {
+      background-color: white;
+      color: black;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+    }
+
+    .container h2 {
+      margin-bottom: 20px;
       color: #8B0000;
     }
-    .menu-item:hover {
-      background: #f0f0f0;
-    }
-    a.menu-item {
-      text-decoration: none;
-      color: inherit;
-    }
-    /* MAIN */
-    .main {
-      flex: 1;
-      margin-left: 0;
-      margin-top: 60px;
-      padding: 15px 20px;
-      overflow-y: auto;
-      position: relative;
-      z-index: 1;
-      background: #fff;
-      color: #000;
-    }
-    /* TOPBAR */
-    .topbar {
-      background: linear-gradient(to right, #8B0000, #000000);
-      color: white;
-      height: 60px;
+
+    input[type="text"] {
       width: 100%;
-      position: fixed;
-      top: 0; left: 0;
-      display: flex;
-      align-items: center;
-      z-index: 998;
-      padding-left: 10px;
-    }
-    .topbar button {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 28px;
-      cursor: pointer;
-      margin-right: 15px;
-    }
-    .topbar h1 {
-      font-size: 20px;
-      margin: 0;
-      user-select: none;
-    }
-
-    /* FORM */
-    form {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px 15px;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-    label {
-      font-weight: 600;
-      font-size: 14px;
-      min-width: 70px;
-    }
-    input[type="text"], select {
-      padding: 5px 8px;
-      font-size: 14px;
-      border: 1px solid #ccc;
-      border-radius: 3px;
-      min-width: 100px;
-      max-width: 200px;
-    }
-    /* pequenos selects menor largura */
-    select.small {
-      max-width: 80px;
-    }
-    /* botoes */
-    button {
-      background-color: #3a7bd5;
-      border: none;
-      color: white;
-      padding: 7px 15px;
-      border-radius: 4px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      font-size: 14px;
-    }
-    button:hover {
-      background-color: #2b5ea9;
-    }
-    button.logout {
-      background-color: #d9534f;
-    }
-    button.logout:hover {
-      background-color: #b52b24;
-    }
-
-    /* LEGENDA */
-    .legenda {
-      font-size: 12px;
-      color: green;
-      margin-bottom: 8px;
-      user-select: none;
-    }
-    .legenda strong {
-      font-weight: 700;
-      color: #004d00;
-    }
-    .legenda img {
-      opacity: 0.3;
-      vertical-align: middle;
-      height: 30px;
-      margin-left: 5px;
-      margin-right: 5px;
-    }
-
-    /* RESULTADOS - área scrollável */
-    .results {
-      border-top: 3px solid #3a7bd5;
-      height: 250px;
-      overflow-y: auto;
       padding: 10px;
-      background: #fafafa;
-      margin-bottom: 10px;
-      font-size: 14px;
-      color: #000;
-      white-space: pre-wrap;
-      border-radius: 5px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
     }
 
-    /* RODAPÉ INFO */
-    .footer-info {
+    button {
+      background-color: #8B0000;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #a30000;
+    }
+
+    .tracking {
+      margin-top: 30px;
+      text-align: left;
+    }
+
+    .step {
       display: flex;
-      flex-wrap: wrap;
-      background: #eee;
-      font-size: 12px;
-      color: #222;
-      padding: 8px 12px;
-      border-radius: 5px;
-      gap: 15px;
-      user-select: none;
+      align-items: center;
+      margin-bottom: 15px;
+      font-size: 16px;
     }
-    .footer-section {
-      flex: 1 1 200px;
+
+    .step i {
+      font-size: 24px;
+      margin-right: 10px;
     }
-    .footer-section strong {
-      display: block;
-      font-weight: 700;
-      margin-bottom: 4px;
+
+    .done {
+      color: green;
     }
-    .footer-section span {
-      display: block;
+
+    .current {
+      color: orange;
     }
-    
-    /* Responsividade */
-    @media (min-width: 768px) {
-      .main {
-        margin-left: 250px;
-        margin-top: 60px;
-      }
-      .topbar {
-        left: 250px;
-        width: calc(100% - 250px);
-      }
-      .sidebar {
-        transform: translateX(0);
-      }
-      form {
-        gap: 15px 30px;
-      }
-    }
-    @media (max-width: 767px) {
-      form label {
-        min-width: 55px;
-      }
-      .results {
-        height: 180px;
-        font-size: 13px;
-      }
+
+    .pending {
+      color: #aaa;
     }
   </style>
 </head>
 <body>
+
   <div class="container">
-    <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-      <div class="sidebar-header">
-        <img src="Logo.png" alt="Logo Mantran" />
-        <h2>José Marcio Ruiz</h2>
-        <p>Mantran Transportes</p>
-      </div>
-      <div class="menu-item"><i class="material-icons">local_shipping</i>Localize Cargas</div>
-      <div class="menu-item"><i class="material-icons">receipt_long</i>Web Faturas</div>
-      <div class="menu-item"><i class="material-icons">warehouse</i>Estoque Armazém</div>
-      <div class="menu-item"><i class="material-icons">attach_money</i>Cotação</div>
-      <a href="index.html" class="menu-item"><i class="material-icons">exit_to_app</i>Sair</a>
-    </div>
+    <h2>Rastrear Nota Fiscal</h2>
+    <input type="text" id="notaFiscal" placeholder="Digite o número da nota fiscal">
+    <button onclick="localizar()">Localizar</button>
 
-    <!-- Main -->
-    <div class="main">
-      <div class="topbar">
-        <button id="menuButton"><i class="material-icons">menu</i></button>
-        <h1>Tracking de Notas Fiscais</h1>
-      </div>
-
-      <form id="trackingForm" autocomplete="off" onsubmit="return false;">
-        <label for="numDocto">Nº Docto</label>
-        <input type="text" id="numDocto" name="numDocto" />
-
-        <label for="tipo">Tipo</label>
-        <select id="tipo" name="tipo">
-          <option value="2">2 - A Entregar</option>
-          <option value="1">1 - Em Trânsito</option>
-          <option value="3">3 - Entregue</option>
-        </select>
-
-        <select id="tipoExtra" name="tipoExtra">
-          <option value="">--</option>
-          <option value="op1">Opção 1</option>
-          <option value="op2">Opção 2</option>
-        </select>
-
-        <label for="refLote">Ref/Lote</label>
-        <input type="text" id="refLote" name="refLote" />
-
-        <label for="cte">CTe</label>
-        <input type="text" id="cte" name="cte" />
-
-        <label for="cidade">Cidade</label>
-        <input type="text" id="cidade" name="cidade" style="flex-grow:1; min-width:150px; max-width: 100%;" />
-
-        <label for="periodo">Período</label>
-        <input type="text" id="periodo" name="periodo" />
-
-        <label for="dataDe">Data de</label>
-        <select id="dataDe" name="dataDe">
-          <option value="emissao">Data Emissão NF</option>
-          <option value="entrega">Data Entrega</option>
-          <option value="saida">Data Saída</option>
-        </select>
-
-        <button type="button" id="btnExcel">Excel</button>
-        <button type="reset">Limpar</button>
-        <button type="submit" id="btnPesquisar">Pesquisar</button>
-        <button type="button" class="logout" id="btnLogout">Logout</button>
-      </form>
-
-      <div class="legenda" aria-label="Legenda">
-        <strong>Legenda</strong> AZ=Armazem / EB=Embarcada / OC=Ocorrencia / ET=Entregue / EP=Entrega Parcial
-        <img src="/mnt/data/359dee2b-e1bd-43b1-b46e-fcf88aa1fd7b.png" alt="Legenda Icones" />
-      </div>
-
-      <div class="results" id="results" tabindex="0" aria-live="polite">
-        <!-- Aqui os resultados da pesquisa aparecerão -->
-      </div>
-
-      <div class="footer-info" aria-label="Informações adicionais">
-        <div class="footer-section">
-          <strong>Destinatário:</strong>
-          <span>Endereço:</span>
-          <span>Cidade:</span>
-          <span>CEP:</span>
-          <span>Fone:</span>
-        </div>
-        <div class="footer-section">
-          <strong>Armador:</strong>
-          <span>Exportador:</span>
-          <span>Nº DI:</span>
-          <span>Referência:</span>
-          <span>Nº House:</span>
-          <span>Nº Reserva:</span>
-        </div>
-        <div class="footer-section">
-          <strong>Motorista:</strong>
-          <span>Tração:</span>
-          <span>Reboque:</span>
-          <span>Peso NF:</span>
-          <span>R$ Merc.:</span>
-          <span>QT Vols:</span>
-        </div>
-      </div>
+    <div id="resultado" class="tracking" style="display:none;">
+      <div class="step done"><i class="material-icons">check_circle</i> Armazém</div>
+      <div class="step done"><i class="material-icons">check_circle</i> Embarcada</div>
+      <div class="step current"><i class="material-icons">local_shipping</i> Em Trânsito</div>
+      <div class="step pending"><i class="material-icons">radio_button_unchecked</i> Chegada no Cliente</div>
+      <div class="step pending"><i class="material-icons">radio_button_unchecked</i> Entregue</div>
     </div>
   </div>
 
   <script>
-    // Menu toggle
-    const sidebar = document.getElementById('sidebar');
-    const menuButton = document.getElementById('menuButton');
-    menuButton.addEventListener('click', e => {
-      e.stopPropagation();
-      sidebar.classList.toggle('active');
-    });
-    document.addEventListener('click', e => {
-      if (!sidebar.contains(e.target) && e.target !== menuButton) {
-        sidebar.classList.remove('active');
-      }
-    });
+    function localizar() {
+      const nota = document.getElementById('notaFiscal').value.trim();
+      const resultado = document.getElementById('resultado');
 
-    // Botões (exemplo)
-    document.getElementById('btnPesquisar').addEventListener('click', () => {
-      const resultsDiv = document.getElementById('results');
-      resultsDiv.textContent = 'Pesquisando...\n\n(Exemplo de resultado exibido aqui)';
-    });
-    document.getElementById('btnExcel').addEventListener('click', () => {
-      alert('Exportar para Excel (implementação futura)');
-    });
-    document.getElementById('btnLogout').addEventListener('click', () => {
-      if(confirm('Deseja realmente sair?')) {
-        window.location.href = 'index.html';
+      if (nota === '') {
+        alert('Digite o número da nota fiscal.');
+        return;
       }
-    });
+
+      // Simulando resposta (você pode trocar por chamada ao servidor depois)
+      resultado.style.display = 'block';
+    }
   </script>
 </body>
 </html>
