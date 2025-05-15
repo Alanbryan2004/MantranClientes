@@ -35,7 +35,7 @@
       top: 0;
       left: 0;
       height: 100vh;
-      z-index: 999;
+      z-index: 999; /* garantir que fique acima do .main */
       transform: translateX(-100%);
       transition: transform 0.3s ease;
     }
@@ -73,8 +73,10 @@
     .main {
       flex: 1;
       margin-left: 0;
-      transition: margin-left 0.3s ease;
       width: 100%;
+      transition: margin-left 0.3s ease;
+      position: relative;
+      z-index: 1; /* menor que o menu */
     }
 
     .topbar {
@@ -88,7 +90,7 @@
       position: fixed;
       top: 0;
       left: 0;
-      z-index: 1000;
+      z-index: 998; /* abaixo da sidebar */
       height: 60px;
     }
 
