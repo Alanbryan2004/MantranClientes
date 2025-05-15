@@ -13,9 +13,9 @@
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-      color: #fff;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #8B0000, #000000);
+      color: #ffffff;
       height: 100vh;
     }
 
@@ -23,18 +23,18 @@
       display: flex;
       height: 100%;
       width: 100%;
-      position: relative;
+      flex-direction: row;
     }
 
     .sidebar {
       width: 250px;
       background-color: #1a1a1a;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+      position: fixed;
+      height: 100%;
+      z-index: 10;
       transform: translateX(-100%);
       transition: transform 0.3s ease;
-      position: absolute;
-      height: 100%;
-      z-index: 100;
-      top: 0;
     }
 
     .sidebar.active {
@@ -42,7 +42,7 @@
     }
 
     .sidebar-header {
-      background: linear-gradient(to right, #005aa7, #00c6fb);
+      background: linear-gradient(to right, #8B0000, #000000);
       color: white;
       padding: 20px;
       text-align: center;
@@ -53,24 +53,12 @@
       margin-bottom: 10px;
     }
 
-    .sidebar h2 {
-      margin: 5px 0 0 0;
-      font-size: 16px;
-    }
-
-    .sidebar p {
-      margin: 0;
-      font-weight: bold;
-      color: #eee;
-      font-size: 14px;
-    }
-
     .menu-item {
       margin: 20px;
       display: flex;
       align-items: center;
       cursor: pointer;
-      color: #00c6fb;
+      color: #ffffff;
       font-weight: 500;
     }
 
@@ -80,14 +68,13 @@
 
     .main {
       flex: 1;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      overflow: hidden;
+      margin-left: 0;
+      transition: margin-left 0.3s ease;
+      width: 100%;
     }
 
     .topbar {
-      background: linear-gradient(to right, #005aa7, #00c6fb, #00a859);
+      background: linear-gradient(to right, #8B0000, #000000);
       color: white;
       padding: 0;
       margin: 0;
@@ -112,58 +99,46 @@
 
     .content {
       margin-top: 60px;
-      padding: 20px 10px;
-      overflow-y: auto;
-      flex: 1;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
       gap: 20px;
+      justify-content: center;
     }
 
     .card {
-      background: linear-gradient(145deg, #1e2a38, #2b3b4b);
-      border-radius: 15px;
-      padding: 25px;
+      background-color: #ffffff;
+      color: #000;
+      border-radius: 10px;
+      padding: 20px;
+      width: 45%;
+      min-width: 160px;
+      box-shadow: 0px 2px 5px rgba(0,0,0,0.3);
       text-align: center;
-      box-shadow: 0px 4px 10px rgba(0,0,0,0.5);
       cursor: pointer;
+      text-decoration: none;
       transition: transform 0.2s ease;
-      color: white;
     }
 
     .card:hover {
-      transform: scale(1.03);
-      background: linear-gradient(145deg, #2c3e50, #34495e);
+      transform: scale(1.05);
     }
 
     .card i {
-      font-size: 48px;
-      color: #00c6fb;
-      margin-bottom: 12px;
-    }
-
-    .card-title {
-      font-weight: bold;
-      font-size: 18px;
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
+      font-size: 40px;
+      margin-bottom: 10px;
+      color: #8B0000;
     }
 
     @media (min-width: 768px) {
-      .sidebar {
-        position: relative;
-        transform: translateX(0);
-      }
-
       .main {
         margin-left: 250px;
       }
-
       .topbar {
         left: 250px;
+      }
+      .sidebar {
+        transform: translateX(0);
       }
     }
   </style>
@@ -172,43 +147,40 @@
   <div class="container">
     <div class="sidebar" id="sidebar">
       <div class="sidebar-header">
-        <img src="logo.png" alt="Logo Bandeirantes" />
+        <img src="logo.png" alt="Logo Mantran" />
         <h2>José Marcio Ruiz</h2>
         <p>C149</p>
       </div>
-      <a href="#"><div class="menu-item"><i class="material-icons">search</i>Localize Cargas</div></a>
-      <a href="#"><div class="menu-item"><i class="material-icons">receipt</i>Web Faturas</div></a>
-      <a href="#"><div class="menu-item"><i class="material-icons">inventory_2</i>Estoque Armazem</div></a>
-      <a href="#"><div class="menu-item"><i class="material-icons">attach_money</i>Cotação</div></a>
-      <a href="index.html"><div class="menu-item"><i class="material-icons">exit_to_app</i>Sair</div></a>
+      <div class="menu-item"><i class="material-icons">local_shipping</i>Localize Cargas</div>
+      <div class="menu-item"><i class="material-icons">receipt_long</i>Web Faturas</div>
+      <div class="menu-item"><i class="material-icons">warehouse</i>Estoque Armazém</div>
+      <div class="menu-item"><i class="material-icons">attach_money</i>Cotação</div>
+      <a href="index.html" class="menu-item"><i class="material-icons">exit_to_app</i>Sair</a>
     </div>
 
     <div class="main">
       <div class="topbar">
         <button id="menuButton"><i class="material-icons">menu</i></button>
-        <h1 style="margin-left: 15px; font-size: 20px;">Mantran Mobile</h1>
+        <h1 style="margin-left: 15px; font-size: 20px;">Menu Principal</h1>
       </div>
 
       <div class="content">
-        <a href="#"><div class="card">
-          <i class="material-icons">search</i>
-          <div class="card-title">Localize Cargas</div>
-        </div></a>
-
-        <a href="#"><div class="card">
-          <i class="material-icons">receipt</i>
-          <div class="card-title">Web Faturas</div>
-        </div></a>
-
-        <a href="#"><div class="card">
-          <i class="material-icons">inventory_2</i>
-          <div class="card-title">Estoque Armazem</div>
-        </div></a>
-
-        <a href="#"><div class="card">
+        <a href="#" class="card">
+          <i class="material-icons">local_shipping</i>
+          <div>Localize Cargas</div>
+        </a>
+        <a href="#" class="card">
+          <i class="material-icons">receipt_long</i>
+          <div>Web Faturas</div>
+        </a>
+        <a href="#" class="card">
+          <i class="material-icons">warehouse</i>
+          <div>Estoque Armazém</div>
+        </a>
+        <a href="#" class="card">
           <i class="material-icons">attach_money</i>
-          <div class="card-title">Cotação</div>
-        </div></a>
+          <div>Cotação</div>
+        </a>
       </div>
     </div>
   </div>
@@ -217,13 +189,9 @@
     const sidebar = document.getElementById('sidebar');
     const menuButton = document.getElementById('menuButton');
 
-    function toggleMenu() {
-      sidebar.classList.toggle('active');
-    }
-
     menuButton.addEventListener('click', function (e) {
       e.stopPropagation();
-      toggleMenu();
+      sidebar.classList.toggle('active');
     });
 
     document.addEventListener('click', function (event) {
