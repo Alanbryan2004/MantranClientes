@@ -28,13 +28,14 @@
 
     .sidebar {
       width: 250px;
-      background-color: #1a1a1a;
+      background-color: #ffffff;
+      color: #000000;
       box-shadow: 2px 0 5px rgba(0,0,0,0.3);
       position: fixed;
       top: 0;
       left: 0;
       height: 100vh;
-      z-index: 999; /* garante que fique acima da main */
+      z-index: 999;
       transform: translateX(-100%);
       transition: transform 0.3s ease;
     }
@@ -60,12 +61,13 @@
       display: flex;
       align-items: center;
       cursor: pointer;
-      color: #ffffff;
+      color: #000000;
       font-weight: 500;
     }
 
     .menu-item i {
       margin-right: 10px;
+      color: #8B0000;
     }
 
     .main {
@@ -86,7 +88,7 @@
       position: fixed;
       top: 0;
       left: 0;
-      z-index: 998; /* abaixo da sidebar */
+      z-index: 1000;
       height: 60px;
     }
 
@@ -136,9 +138,11 @@
       .main {
         margin-left: 250px;
       }
+
       .topbar {
         left: 250px;
       }
+
       .sidebar {
         transform: translateX(0);
       }
