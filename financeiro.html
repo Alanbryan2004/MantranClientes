@@ -1,17 +1,122 @@
-<!-- financeiro.html -->
-<div class="content">
-  <div class="card" onclick="location.href='despesas.html'">
-    <h3>Despesas</h3>
-    <canvas id="graficoDespesas"></canvas>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Financeiro</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #8B0000, #000000);
+      color: #fff;
+    }
+    .topbar {
+      background: #111;
+      padding: 15px;
+      text-align: center;
+      font-size: 20px;
+      color: #fff;
+    }
+    .content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 20px;
+      justify-content: center;
+    }
+    .card {
+      background-color: #fff;
+      color: #000;
+      border-radius: 10px;
+      padding: 20px;
+      width: 300px;
+      cursor: pointer;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s ease;
+    }
+    .card:hover {
+      transform: scale(1.05);
+    }
+    canvas {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">Financeiro - Visão Geral</div>
+  <div class="content">
+
+    <div class="card" onclick="location.href='despesas.html'">
+      <h3>Despesas</h3>
+      <canvas id="graficoDespesas"></canvas>
+    </div>
+
+    <div class="card" onclick="location.href='receitas.html'">
+      <h3>Receitas</h3>
+      <canvas id="graficoReceitas"></canvas>
+    </div>
+
+    <div class="card">
+      <h3>Comparativo</h3>
+      <canvas id="graficoComparativo"></canvas>
+    </div>
+
   </div>
 
-  <div class="card" onclick="location.href='receitas.html'">
-    <h3>Receitas</h3>
-    <canvas id="graficoReceitas"></canvas>
-  </div>
+  <script>
+    // Despesas
+    new Chart(document.getElementById('graficoDespesas'), {
+      type: 'bar',
+      data: {
+        labels: ['Aluguel', 'Salários', 'Serviços', 'Outros'],
+        datasets: [{
+          label: 'Despesas - Mês Atual',
+          data: [1500, 3000, 800, 500],
+          backgroundColor: '#8B0000'
+        }]
+      },
+      options: { responsive: true }
+    });
 
-  <div class="card">
-    <h3>Comparativo</h3>
-    <canvas id="graficoComparativo"></canvas>
-  </div>
-</div>
+    // Receitas
+    new Chart(document.getElementById('graficoReceitas'), {
+      type: 'bar',
+      data: {
+        labels: ['Vendas', 'Serviços', 'Outros'],
+        datasets: [{
+          label: 'Receitas - Mês Atual',
+          data: [4000, 1200, 300],
+          backgroundColor: '#228B22'
+        }]
+      },
+      options: { responsive: true }
+    });
+
+    // Comparativo
+    new Chart(document.getElementById('graficoComparativo'), {
+      type: 'line',
+      data: {
+        labels: ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4'],
+        datasets: [
+          {
+            label: 'Receitas',
+            data: [1000, 1200, 1500, 1800],
+            borderColor: '#228B22',
+            fill: false
+          },
+          {
+            label: 'Despesas',
+            data: [800, 1000, 1300, 1700],
+            borderColor: '#8B0000',
+            fill: false
+          }
+        ]
+      },
+      options: { responsive: true }
+    });
+  </script>
+</body>
+</html>
