@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Despesas - Detalhamento</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #8B0000, #000000);
+      color: #fff;
+    }
+    .topbar {
+      background: #111;
+      padding: 15px;
+      text-align: center;
+      font-size: 20px;
+      color: #fff;
+    }
+    .content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 20px;
+      justify-content: center;
+    }
+    .card {
+      background-color: #fff;
+      color: #000;
+      border-radius: 10px;
+      padding: 20px;
+      width: 300px;
+      cursor: pointer;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s ease;
+    }
+    .card:hover {
+      transform: scale(1.05);
+    }
+    canvas {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">Despesas - Em Aberto vs Pagos</div>
+  <div class="content">
+
+    <div class="card" onclick="location.href='aberto.html'">
+      <h3>Status de Pagamento</h3>
+      <canvas id="graficoAbertoPago"></canvas>
+    </div>
+
+  </div>
+
+  <script>
+    // Em Aberto vs Pagos
+    new Chart(document.getElementById('graficoAbertoPago'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Em Aberto', 'Pagos'],
+        datasets: [{
+          data: [1800, 2000],
+          backgroundColor: ['#FFA500', '#228B22']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom'
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
