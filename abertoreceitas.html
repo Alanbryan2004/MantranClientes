@@ -106,7 +106,29 @@
       width: 300px;
       box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
     }
-    canvas { max-width: 100%; height: auto; }
+    .table-container {
+      background-color: #fff;
+      color: #000;
+      border-radius: 10px;
+      padding: 20px;
+      width: 95%;
+      max-width: 800px;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+      margin-top: 20px;
+      font-size: 14px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border-bottom: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
     @media (min-width: 768px) {
       .main { margin-left: 250px; }
       .topbar { left: 250px; }
@@ -134,89 +156,57 @@
         <button id="menuButton"><i class="material-icons">menu</i></button>
         <h1 style="margin-left: 15px; font-size: 20px;">Receitas - Detalhamento</h1>
       </div>
+
       <div class="content">
         <div class="card">
           <h3>Receitas por Origem</h3>
           <canvas id="graficoReceitaOrigem"></canvas>
         </div>
+
+        <!-- Novo card com Títulos com Vencimento do Dia -->
+        <div class="table-container">
+          <h3 id="titulo-vencimento">Títulos com Vencimento de Hoje</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Fatura</th>
+                <th>Descrição</th>
+                <th>Valor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>FAT20240501</td>
+                <td>Serviço de Transporte Campinas</td>
+                <td>R$ 1.250,00</td>
+              </tr>
+              <tr>
+                <td>FAT20240502</td>
+                <td>Fatura Cliente X - Entrega SP</td>
+                <td>R$ 980,00</td>
+              </tr>
+              <tr>
+                <td>FAT20240503</td>
+                <td>Serviço de Coleta</td>
+                <td>R$ 430,00</td>
+              </tr>
+              <tr>
+                <td>FAT20240504</td>
+                <td>Fatura Cliente Y - Rio de Janeiro</td>
+                <td>R$ 1.720,00</td>
+              </tr>
+              <tr>
+                <td>FAT20240505</td>
+                <td>Entrega Expressa Belo Horizonte</td>
+                <td>R$ 1.150,00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
 
-<div class="table-container">
-  <h3 id="titulo-vencimento">Títulos com Vencimento de Hoje</h3>
-  <table>
-    <thead>
-      <tr>
-        <th>Fatura</th>
-        <th>Descrição</th>
-        <th>Valor</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>FAT20240501</td>
-        <td>Serviço de Transporte Campinas</td>
-        <td>R$ 1.250,00</td>
-      </tr>
-      <tr>
-        <td>FAT20240502</td>
-        <td>Fatura Cliente X - Entrega SP</td>
-        <td>R$ 980,00</td>
-      </tr>
-      <tr>
-        <td>FAT20240503</td>
-        <td>Serviço de Coleta</td>
-        <td>R$ 430,00</td>
-      </tr>
-      <tr>
-        <td>FAT20240504</td>
-        <td>Fatura Cliente Y - Rio de Janeiro</td>
-        <td>R$ 1.720,00</td>
-      </tr>
-      <tr>
-        <td>FAT20240505</td>
-        <td>Entrega Expressa Belo Horizonte</td>
-        <td>R$ 1.150,00</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<style>
-  .table-container {
-    background-color: #fff;
-    color: #000;
-    border-radius: 10px;
-    padding: 20px;
-    width: 95%;
-    max-width: 800px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
-    margin-top: 20px;
-    font-size: 14px;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  th, td {
-    border-bottom: 1px solid #ccc;
-    padding: 10px;
-    text-align: left;
-  }
-  th {
-    background-color: #f4f4f4;
-  }
-</style>
-
-<script>
-  // Define a data de hoje no cabeçalho
-  const dataHoje = new Date();
-  const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-  const dataFormatada = dataHoje.toLocaleDateString('pt-BR', options);
-  document.getElementById('titulo-vencimento').textContent = `Títulos com Vencimento em ${dataFormatada}`;
-</script>
-  
   <script>
     const sidebar = document.getElementById('sidebar');
     const menuButton = document.getElementById('menuButton');
@@ -230,6 +220,7 @@
       }
     });
 
+    // Gráfico de Receitas
     new Chart(document.getElementById('graficoReceitaOrigem'), {
       type: 'pie',
       data: {
@@ -256,6 +247,12 @@
       },
       plugins: [ChartDataLabels]
     });
+
+    // Atualiza o título da tabela com a data de hoje
+    const dataHoje = new Date();
+    const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+    const dataFormatada = dataHoje.toLocaleDateString('pt-BR', options);
+    document.getElementById('titulo-vencimento').textContent = `Títulos com Vencimento em ${dataFormatada}`;
   </script>
 </body>
 </html>
