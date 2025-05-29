@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mantran Mobile</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Despesas em Aberto por Categoria</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       padding: 0;
@@ -18,61 +16,57 @@
       color: #ffffff;
       height: 100vh;
     }
-
     .container {
       display: flex;
       height: 100%;
       width: 100%;
       flex-direction: row;
     }
-
     .sidebar {
       width: 250px;
-      background-color: #1a1a1a;
+      background-color: #ffffff;
+      color: #000000;
       box-shadow: 2px 0 5px rgba(0,0,0,0.3);
       position: fixed;
-      height: 100%;
-      z-index: 10;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      z-index: 999;
       transform: translateX(-100%);
       transition: transform 0.3s ease;
     }
-
-    .sidebar.active {
-      transform: translateX(0);
-    }
-
+    .sidebar.active { transform: translateX(0); }
     .sidebar-header {
       background: linear-gradient(to right, #8B0000, #000000);
       color: white;
       padding: 20px;
       text-align: center;
     }
-
     .sidebar-header img {
       width: 60px;
       margin-bottom: 10px;
     }
-
     .menu-item {
       margin: 20px;
       display: flex;
       align-items: center;
       cursor: pointer;
-      color: #ffffff;
+      color: #000000;
       font-weight: 500;
+      text-decoration: none;
     }
-
     .menu-item i {
       margin-right: 10px;
+      color: #8B0000;
     }
-
     .main {
       flex: 1;
       margin-left: 0;
-      transition: margin-left 0.3s ease;
       width: 100%;
+      transition: margin-left 0.3s ease;
+      position: relative;
+      z-index: 1;
     }
-
     .topbar {
       background: linear-gradient(to right, #8B0000, #000000);
       color: white;
@@ -84,10 +78,9 @@
       position: fixed;
       top: 0;
       left: 0;
-      z-index: 20;
+      z-index: 998;
       height: 60px;
     }
-
     .topbar button {
       background: none;
       border: none;
@@ -96,7 +89,6 @@
       cursor: pointer;
       margin-left: 10px;
     }
-
     .content {
       margin-top: 60px;
       padding: 20px;
@@ -105,41 +97,19 @@
       gap: 20px;
       justify-content: center;
     }
-
     .card {
-      background-color: #ffffff;
+      background-color: #fff;
       color: #000;
       border-radius: 10px;
       padding: 20px;
-      width: 45%;
-      min-width: 160px;
-      box-shadow: 0px 2px 5px rgba(0,0,0,0.3);
-      text-align: center;
-      cursor: pointer;
-      text-decoration: none;
-      transition: transform 0.2s ease;
+      width: 320px;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
     }
-
-    .card:hover {
-      transform: scale(1.05);
-    }
-
-    .card i {
-      font-size: 40px;
-      margin-bottom: 10px;
-      color: #8B0000;
-    }
-
+    canvas { max-width: 100%; height: auto; }
     @media (min-width: 768px) {
-      .main {
-        margin-left: 250px;
-      }
-      .topbar {
-        left: 250px;
-      }
-      .sidebar {
-        transform: translateX(0);
-      }
+      .main { margin-left: 250px; }
+      .topbar { left: 250px; }
+      .sidebar { transform: translateX(0); }
     }
   </style>
 </head>
@@ -147,45 +117,28 @@
   <div class="container">
     <div class="sidebar" id="sidebar">
       <div class="sidebar-header">
-        <img src="logo.png" alt="Logo Mantran" />
+        <img src="Logo.png" alt="Logo Mantran" />
         <h2>José Marcio Ruiz</h2>
-        <p>C149</p>
+        <p>Mantran Transportes</p>
       </div>
-      <div class="menu-item"><i class="material-icons">local_shipping</i>Localize Cargas</div>
-      <div class="menu-item"><i class="material-icons">receipt_long</i>Web Faturas</div>
+      <a href="localize.html" class="menu-item"><i class="material-icons">local_shipping</i>Localize Cargas</a>
+      <a href="https://www.mantranweb.com.br" class="menu-item"><i class="material-icons">receipt_long</i>Web Faturas</a>
       <div class="menu-item"><i class="material-icons">warehouse</i>Estoque Armazém</div>
       <div class="menu-item"><i class="material-icons">attach_money</i>Cotação</div>
-      <a href="financeiro.html" class="menu-item"><i class="material-icons">insert_chart</i>Financeiro</a>
       <a href="index.html" class="menu-item"><i class="material-icons">exit_to_app</i>Sair</a>
     </div>
 
     <div class="main">
       <div class="topbar">
         <button id="menuButton"><i class="material-icons">menu</i></button>
-        <h1 style="margin-left: 15px; font-size: 20px;">Menu Principal</h1>
+        <h1 style="margin-left: 15px; font-size: 20px;">Despesas em Aberto por Categoria</h1>
       </div>
 
       <div class="content">
-        <a href="#" class="card">
-          <i class="material-icons">local_shipping</i>
-          <div>Localize Cargas</div>
-        </a>
-        <a href="#" class="card">
-          <i class="material-icons">receipt_long</i>
-          <div>Web Faturas</div>
-        </a>
-        <a href="#" class="card">
-          <i class="material-icons">warehouse</i>
-          <div>Estoque Armazém</div>
-        </a>
-        <a href="#" class="card">
-          <i class="material-icons">attach_money</i>
-          <div>Cotação</div>
-        </a>
-        <a href="financeiro.html" class="card">
-          <i class="material-icons">insert_chart</i>
-          <div>Financeiro</div>
-        </a>
+        <div class="card">
+          <h3>Distribuição por Categoria</h3>
+          <canvas id="graficoCategorias"></canvas>
+        </div>
       </div>
     </div>
   </div>
@@ -193,15 +146,30 @@
   <script>
     const sidebar = document.getElementById('sidebar');
     const menuButton = document.getElementById('menuButton');
-
     menuButton.addEventListener('click', function (e) {
       e.stopPropagation();
       sidebar.classList.toggle('active');
     });
-
     document.addEventListener('click', function (event) {
       if (!sidebar.contains(event.target) && event.target !== menuButton) {
         sidebar.classList.remove('active');
+      }
+    });
+
+    new Chart(document.getElementById('graficoCategorias'), {
+      type: 'pie',
+      data: {
+        labels: ['Aluguel', 'Serviços', 'Materiais', 'Transporte'],
+        datasets: [{
+          data: [1000, 500, 200, 100],
+          backgroundColor: ['#FF6347', '#FFD700', '#00BFFF', '#9370DB']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'bottom' }
+        }
       }
     });
   </script>
