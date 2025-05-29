@@ -6,20 +6,20 @@
   <title>Operacional - Gráficos</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
   <style>
-    /* Reutiliza o mesmo estilo da página anterior */
     body {
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
       background: linear-gradient(to right, #8B0000, #000000);
-      color: #ffffff;
+      color: white;
     }
     .topbar {
-      background: linear-gradient(to right, #8B0000, #000000);
-      color: white;
-      padding: 10px 20px;
+      background-color: #8B0000;
+      padding: 15px 20px;
       font-size: 20px;
+      font-weight: bold;
     }
     .content {
       display: flex;
@@ -33,7 +33,7 @@
       color: #000000;
       border-radius: 10px;
       padding: 20px;
-      width: 300px;
+      width: 320px;
       text-align: center;
       cursor: pointer;
       box-shadow: 0 2px 5px rgba(0,0,0,0.3);
@@ -60,31 +60,72 @@
   </div>
 
   <script>
-    new Chart(document.getElementById('graficoColetas'), {
+    Chart.register(ChartDataLabels);
+
+    const configColetas = {
       type: 'bar',
       data: {
-        labels: ['SP', 'RJ', 'MG', 'PR'],
+        labels: ['São Paulo', 'Rio de Janeiro', 'Belo Horizonte', 'Curitiba'],
         datasets: [{
-          label: 'Coletas por Estado',
-          data: [12, 19, 7, 5],
+          label: 'Coletas por Cidade',
+          data: [12, 9, 7, 5],
           backgroundColor: '#8B0000'
         }]
       },
-      options: { responsive: true }
-    });
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          datalabels: {
+            anchor: 'end',
+            align: 'top',
+            color: '#000',
+            font: { weight: 'bold' },
+            formatter: Math.round
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            precision: 0
+          }
+        }
+      }
+    };
 
-    new Chart(document.getElementById('graficoCtes'), {
+    const configCtes = {
       type: 'bar',
       data: {
-        labels: ['SP', 'RJ', 'MG', 'PR'],
+        labels: ['São Paulo', 'Rio de Janeiro', 'Belo Horizonte', 'Curitiba'],
         datasets: [{
-          label: 'CTes por Estado',
-          data: [10, 15, 4, 8],
+          label: 'CTEs por Cidade',
+          data: [10, 8, 4, 6],
           backgroundColor: '#1E90FF'
         }]
       },
-      options: { responsive: true }
-    });
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          datalabels: {
+            anchor: 'end',
+            align: 'top',
+            color: '#000',
+            font: { weight: 'bold' },
+            formatter: Math.round
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            precision: 0
+          }
+        }
+      }
+    };
+
+    new Chart(document.getElementById('graficoColetas'), configColetas);
+    new Chart(document.getElementById('graficoCtes'), configCtes);
   </script>
 </body>
 </html>
