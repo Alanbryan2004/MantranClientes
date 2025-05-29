@@ -6,6 +6,7 @@
   <title>Receitas - Detalhamento</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
   <style>
     * { box-sizing: border-box; }
     body {
@@ -105,10 +106,7 @@
       width: 300px;
       box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
     }
-    canvas {
-      max-width: 100%;
-      height: auto;
-    }
+    canvas { max-width: 100%; height: auto; }
     @media (min-width: 768px) {
       .main { margin-left: 250px; }
       .topbar { left: 250px; }
@@ -158,7 +156,6 @@
       }
     });
 
-    // Gráfico por Origem de Receita
     new Chart(document.getElementById('graficoReceitaOrigem'), {
       type: 'pie',
       data: {
@@ -171,11 +168,19 @@
       options: {
         responsive: true,
         plugins: {
-          legend: {
-            position: 'bottom'
+          legend: { position: 'bottom' },
+          datalabels: {
+            color: '#fff',
+            formatter: (value, context) => {
+              const data = context.chart.data.datasets[0].data;
+              const total = data.reduce((acc, val) => acc + val, 0);
+              const pct = ((value / total) * 100).toFixed(1);
+              return `${pct}%`;
+            }
           }
         }
-      }
+      },
+      plugins: [ChartDataLabels]
     });
   </script>
 </body>
