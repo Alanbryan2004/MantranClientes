@@ -3,27 +3,98 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Financeiro</title>
+  <title>Financeiro - Visão Geral</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
+    * { box-sizing: border-box; }
     body {
       margin: 0;
+      padding: 0;
       font-family: Arial, sans-serif;
       background: linear-gradient(to right, #8B0000, #000000);
-      color: #fff;
+      color: #ffffff;
+      height: 100vh;
+    }
+    .container {
+      display: flex;
+      height: 100%;
+      width: 100%;
+      flex-direction: row;
+    }
+    .sidebar {
+      width: 250px;
+      background-color: #ffffff;
+      color: #000000;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      z-index: 999;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+    }
+    .sidebar.active { transform: translateX(0); }
+    .sidebar-header {
+      background: linear-gradient(to right, #8B0000, #000000);
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    .sidebar-header img {
+      width: 60px;
+      margin-bottom: 10px;
+    }
+    .menu-item {
+      margin: 20px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      color: #000000;
+      font-weight: 500;
+      text-decoration: none;
+    }
+    .menu-item i {
+      margin-right: 10px;
+      color: #8B0000;
+    }
+    .main {
+      flex: 1;
+      margin-left: 0;
+      width: 100%;
+      transition: margin-left 0.3s ease;
+      position: relative;
+      z-index: 1;
     }
     .topbar {
-      background: #111;
-      padding: 15px;
-      text-align: center;
-      font-size: 20px;
-      color: #fff;
+      background: linear-gradient(to right, #8B0000, #000000);
+      color: white;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 998;
+      height: 60px;
+    }
+    .topbar button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      margin-left: 10px;
     }
     .content {
+      margin-top: 60px;
+      padding: 20px;
       display: flex;
       flex-wrap: wrap;
       gap: 20px;
-      padding: 20px;
       justify-content: center;
     }
     .card {
@@ -35,39 +106,70 @@
       cursor: pointer;
       box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
       transition: transform 0.2s ease;
+      text-align: center;
     }
-    .card:hover {
-      transform: scale(1.05);
-    }
-    canvas {
-      max-width: 100%;
-      height: auto;
+    .card:hover { transform: scale(1.05); }
+    canvas { max-width: 100%; height: auto; }
+    @media (min-width: 768px) {
+      .main { margin-left: 250px; }
+      .topbar { left: 250px; }
+      .sidebar { transform: translateX(0); }
     }
   </style>
 </head>
 <body>
-  <div class="topbar">Financeiro - Visão Geral</div>
-  <div class="content">
-
-    <div class="card" onclick="location.href='despesas.html'">
-      <h3>Despesas</h3>
-      <canvas id="graficoDespesas"></canvas>
+  <div class="container">
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <img src="Logo.png" alt="Logo Mantran" />
+        <h2>José Marcio Ruiz</h2>
+        <p>Mantran Transportes</p>
+      </div>
+      <a href="localize.html" class="menu-item"><i class="material-icons">local_shipping</i>Localize Cargas</a>
+      <a href="https://www.mantranweb.com.br" class="menu-item"><i class="material-icons">receipt_long</i>Web Faturas</a>
+      <div class="menu-item"><i class="material-icons">warehouse</i>Estoque Armazém</div>
+      <div class="menu-item"><i class="material-icons">attach_money</i>Cotação</div>
+      <a href="index.html" class="menu-item"><i class="material-icons">exit_to_app</i>Sair</a>
     </div>
 
-    <div class="card" onclick="location.href='receitas.html'">
-      <h3>Receitas</h3>
-      <canvas id="graficoReceitas"></canvas>
-    </div>
+    <div class="main">
+      <div class="topbar">
+        <button id="menuButton"><i class="material-icons">menu</i></button>
+        <h1 style="margin-left: 15px; font-size: 20px;">Financeiro - Visão Geral</h1>
+      </div>
 
-    <div class="card">
-      <h3>Comparativo</h3>
-      <canvas id="graficoComparativo"></canvas>
-    </div>
+      <div class="content">
+        <div class="card" onclick="location.href='despesas.html'">
+          <h3>Despesas</h3>
+          <canvas id="graficoDespesas"></canvas>
+        </div>
 
+        <div class="card" onclick="location.href='receitas.html'">
+          <h3>Receitas</h3>
+          <canvas id="graficoReceitas"></canvas>
+        </div>
+
+        <div class="card">
+          <h3>Comparativo</h3>
+          <canvas id="graficoComparativo"></canvas>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script>
-    // Despesas
+    const sidebar = document.getElementById('sidebar');
+    const menuButton = document.getElementById('menuButton');
+    menuButton.addEventListener('click', function (e) {
+      e.stopPropagation();
+      sidebar.classList.toggle('active');
+    });
+    document.addEventListener('click', function (event) {
+      if (!sidebar.contains(event.target) && event.target !== menuButton) {
+        sidebar.classList.remove('active');
+      }
+    });
+
     new Chart(document.getElementById('graficoDespesas'), {
       type: 'bar',
       data: {
@@ -81,7 +183,6 @@
       options: { responsive: true }
     });
 
-    // Receitas
     new Chart(document.getElementById('graficoReceitas'), {
       type: 'bar',
       data: {
@@ -95,7 +196,6 @@
       options: { responsive: true }
     });
 
-    // Comparativo
     new Chart(document.getElementById('graficoComparativo'), {
       type: 'line',
       data: {
