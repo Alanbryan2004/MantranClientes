@@ -6,6 +6,7 @@
   <title>Despesas em Aberto por Categoria</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
   <style>
     * { box-sizing: border-box; }
     body {
@@ -168,9 +169,19 @@
       options: {
         responsive: true,
         plugins: {
-          legend: { position: 'bottom' }
+          legend: { position: 'bottom' },
+          datalabels: {
+            color: '#fff',
+            formatter: (value, context) => {
+              const data = context.chart.data.datasets[0].data;
+              const total = data.reduce((acc, val) => acc + val, 0);
+              const pct = ((value / total) * 100).toFixed(1);
+              return `${pct}%`;
+            }
+          }
         }
-      }
+      },
+      plugins: [ChartDataLabels]
     });
   </script>
 </body>
