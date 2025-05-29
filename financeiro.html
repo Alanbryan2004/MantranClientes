@@ -1,155 +1,221 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Comparativo Financeiro</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Financeiro - Visão Geral</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
   <style>
-    canvas {
-      max-width: 100% !important;
-      height: auto !important;
-      max-height: 300px;
-    }
+    * { box-sizing: border-box; }
     body {
       margin: 0;
+      padding: 0;
       font-family: Arial, sans-serif;
       background: linear-gradient(to right, #8B0000, #000000);
+      color: #ffffff;
+      height: 100vh;
+    }
+    .container {
+      display: flex;
+      height: 100%;
+      width: 100%;
+      flex-direction: row;
+    }
+    .sidebar {
+      width: 250px;
+      background-color: #ffffff;
+      color: #000000;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      z-index: 999;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+    }
+    .sidebar.active { transform: translateX(0); }
+    .sidebar-header {
+      background: linear-gradient(to right, #8B0000, #000000);
       color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    .sidebar-header img {
+      width: 60px;
+      margin-bottom: 10px;
+    }
+    .menu-item {
+      margin: 20px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      color: #000000;
+      font-weight: 500;
+      text-decoration: none;
+    }
+    .menu-item i {
+      margin-right: 10px;
+      color: #8B0000;
+    }
+    .main {
+      flex: 1;
+      margin-left: 0;
+      width: 100%;
+      transition: margin-left 0.3s ease;
+      position: relative;
+      z-index: 1;
     }
     .topbar {
       background: linear-gradient(to right, #8B0000, #000000);
-      padding: 20px;
-      text-align: center;
+      color: white;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 998;
+      height: 60px;
+    }
+    .topbar button {
+      background: none;
+      border: none;
+      color: white;
       font-size: 24px;
-      font-weight: bold;
+      cursor: pointer;
+      margin-left: 10px;
     }
     .content {
+      margin-top: 60px;
       padding: 20px;
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 30px;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
     }
-    .chart-card {
+    .card {
       background-color: #fff;
       color: #000;
       border-radius: 10px;
       padding: 20px;
-      width: 90%;
-      max-width: 800px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-    }
-    h3 {
+      width: 300px;
+      cursor: pointer;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s ease;
       text-align: center;
+    }
+    .card:hover { transform: scale(1.05); }
+    canvas { max-width: 100%; height: auto; }
+    @media (min-width: 768px) {
+      .main { margin-left: 250px; }
+      .topbar { left: 250px; }
+      .sidebar { transform: translateX(0); }
     }
   </style>
 </head>
 <body>
-  <div class="topbar">Comparativo Financeiro: Despesas x Receitas</div>
-
-  <div class="content">
-    <div class="chart-card">
-      <h3>Gráfico de Barras</h3>
-      <canvas id="barChart"></canvas>
+  <div class="container">
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <img src="Logo.png" alt="Logo Mantran" />
+        <h2>José Marcio Ruiz</h2>
+        <p>Mantran Transportes</p>
+      </div>
+      <a href="localize.html" class="menu-item"><i class="material-icons">local_shipping</i>Localize Cargas</a>
+      <a href="https://www.mantranweb.com.br" class="menu-item"><i class="material-icons">receipt_long</i>Web Faturas</a>
+      <div class="menu-item"><i class="material-icons">warehouse</i>Estoque Armazém</div>
+      <div class="menu-item"><i class="material-icons">attach_money</i>Cotação</div>
+      <a href="index.html" class="menu-item"><i class="material-icons">exit_to_app</i>Sair</a>
     </div>
 
-    <div class="chart-card" style="max-width: 600px;">
-      <h3>Gráfico de Pizza</h3>
-      <canvas id="pieChart"></canvas>
-    </div>
+    <div class="main">
+      <div class="topbar">
+        <button id="menuButton"><i class="material-icons">menu</i></button>
+        <h1 style="margin-left: 15px; font-size: 20px;">Financeiro - Visão Geral</h1>
+      </div>
 
-    <div class="chart-card">
-      <h3>Gráfico de Linha</h3>
-      <canvas id="lineChart"></canvas>
+      <div class="content">
+        <div class="card" onclick="location.href='despesas.html'">
+          <h3>Despesas</h3>
+          <canvas id="graficoDespesas"></canvas>
+        </div>
+
+        <div class="card" onclick="location.href='receitas.html'">
+          <h3>Receitas</h3>
+          <canvas id="graficoReceitas"></canvas>
+        </div>
+
+        <div class="card">
+          <h3>Comparativo</h3>
+          <canvas id="graficoComparativo"></canvas>
+        </div>
+      </div>
     </div>
   </div>
 
   <script>
-    const dataValores = {
-      despesas: 6300,
-      receitas: 7500
-    };
-
-    const labels = ['Despesas', 'Receitas'];
-    const valores = [dataValores.despesas, dataValores.receitas];
-
-    const pluginDatalabels = {
-      color: '#000',
-      font: { weight: 'bold' },
-      formatter: (value, ctx) => {
-        const total = valores.reduce((a, b) => a + b, 0);
-        const pct = ((value / total) * 100).toFixed(1);
-        return `R$ ${value.toLocaleString()} (${pct}%)`;
+    const sidebar = document.getElementById('sidebar');
+    const menuButton = document.getElementById('menuButton');
+    menuButton.addEventListener('click', function (e) {
+      e.stopPropagation();
+      sidebar.classList.toggle('active');
+    });
+    document.addEventListener('click', function (event) {
+      if (!sidebar.contains(event.target) && event.target !== menuButton) {
+        sidebar.classList.remove('active');
       }
-    };
+    });
 
-    new Chart(document.getElementById('barChart'), {
+    new Chart(document.getElementById('graficoDespesas'), {
       type: 'bar',
       data: {
-        labels: labels,
+        labels: ['Aluguel', 'Salários', 'Serviços', 'Outros'],
         datasets: [{
-          label: 'R$ por Categoria',
-          data: valores,
-          backgroundColor: ['#8B0000', '#228B22']
+          label: 'Despesas - Mês Atual',
+          data: [1500, 3000, 800, 500],
+          backgroundColor: '#8B0000'
         }]
       },
-      options: {
-        responsive: true,
-        plugins: {
-          datalabels: pluginDatalabels,
-          legend: { display: false }
-        }
-      },
-      plugins: [ChartDataLabels]
+      options: { responsive: true }
     });
 
-    new Chart(document.getElementById('pieChart'), {
-      type: 'pie',
+    new Chart(document.getElementById('graficoReceitas'), {
+      type: 'bar',
       data: {
-        labels: labels,
+        labels: ['Vendas', 'Serviços', 'Outros'],
         datasets: [{
-          data: valores,
-          backgroundColor: ['#8B0000', '#228B22']
+          label: 'Receitas - Mês Atual',
+          data: [4000, 1200, 300],
+          backgroundColor: '#228B22'
         }]
       },
-      options: {
-        responsive: true,
-        plugins: {
-          datalabels: pluginDatalabels,
-          legend: { position: 'bottom' }
-        }
-      },
-      plugins: [ChartDataLabels]
+      options: { responsive: true }
     });
 
-    new Chart(document.getElementById('lineChart'), {
+    new Chart(document.getElementById('graficoComparativo'), {
       type: 'line',
       data: {
         labels: ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4'],
         datasets: [
           {
-            label: 'Despesas',
-            data: [1200, 1600, 1800, 1700],
-            borderColor: '#8B0000',
+            label: 'Receitas',
+            data: [1000, 1200, 1500, 1800],
+            borderColor: '#228B22',
             fill: false
           },
           {
-            label: 'Receitas',
-            data: [1400, 1800, 2000, 2300],
-            borderColor: '#228B22',
+            label: 'Despesas',
+            data: [800, 1000, 1300, 1700],
+            borderColor: '#8B0000',
             fill: false
           }
         ]
       },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: { position: 'top' }
-        }
-      }
+      options: { responsive: true }
     });
   </script>
 </body>
