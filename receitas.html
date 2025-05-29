@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Receitas - Detalhamento</title>
+  <title>Despesas - Detalhamento</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
@@ -104,9 +104,17 @@
       border-radius: 10px;
       padding: 20px;
       width: 300px;
+      cursor: pointer;
       box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s ease;
     }
-    canvas { max-width: 100%; height: auto; }
+    .card:hover {
+      transform: scale(1.05);
+    }
+    canvas {
+      max-width: 100%;
+      height: auto;
+    }
     @media (min-width: 768px) {
       .main { margin-left: 250px; }
       .topbar { left: 250px; }
@@ -132,12 +140,12 @@
     <div class="main">
       <div class="topbar">
         <button id="menuButton"><i class="material-icons">menu</i></button>
-        <h1 style="margin-left: 15px; font-size: 20px;">Receitas - Detalhamento</h1>
+        <h1 style="margin-left: 15px; font-size: 20px;">Despesas - Detalhamento</h1>
       </div>
       <div class="content">
-        <div class="card">
-          <h3>Receitas por Origem</h3>
-          <canvas id="graficoReceitaOrigem"></canvas>
+        <div class="card" onclick="location.href='aberto.html'">
+          <h3>Status de Pagamento</h3>
+          <canvas id="graficoAbertoPago"></canvas>
         </div>
       </div>
     </div>
@@ -156,13 +164,13 @@
       }
     });
 
-    new Chart(document.getElementById('graficoReceitaOrigem'), {
-      type: 'pie',
+    new Chart(document.getElementById('graficoAbertoPago'), {
+      type: 'doughnut',
       data: {
-        labels: ['CTes', 'NFSe', 'Minutas', 'Coletas'],
+        labels: ['Em Aberto', 'Pagos'],
         datasets: [{
-          data: [2000, 1000, 800, 400],
-          backgroundColor: ['#32CD32', '#00CED1', '#FFA500', '#9370DB']
+          data: [1800, 2000],
+          backgroundColor: ['#FFA500', '#228B22']
         }]
       },
       options: {
