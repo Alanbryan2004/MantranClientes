@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Operacional - Gráficos</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* Reutiliza o mesmo estilo da página anterior */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #8B0000, #000000);
+      color: #ffffff;
+    }
+    .topbar {
+      background: linear-gradient(to right, #8B0000, #000000);
+      color: white;
+      padding: 10px 20px;
+      font-size: 20px;
+    }
+    .content {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 20px;
+    }
+    .card {
+      background: #ffffff;
+      color: #000000;
+      border-radius: 10px;
+      padding: 20px;
+      width: 300px;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      transition: transform 0.2s;
+    }
+    .card:hover { transform: scale(1.05); }
+    canvas { max-width: 100%; }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">Operacional - Gráficos Detalhados</div>
+
+  <div class="content">
+    <div class="card" onclick="location.href='coletas.html'">
+      <h3>Gráfico Coletas</h3>
+      <canvas id="graficoColetas"></canvas>
+    </div>
+
+    <div class="card" onclick="location.href='ctes.html'">
+      <h3>Gráfico CTes</h3>
+      <canvas id="graficoCtes"></canvas>
+    </div>
+  </div>
+
+  <script>
+    new Chart(document.getElementById('graficoColetas'), {
+      type: 'bar',
+      data: {
+        labels: ['SP', 'RJ', 'MG', 'PR'],
+        datasets: [{
+          label: 'Coletas por Estado',
+          data: [12, 19, 7, 5],
+          backgroundColor: '#8B0000'
+        }]
+      },
+      options: { responsive: true }
+    });
+
+    new Chart(document.getElementById('graficoCtes'), {
+      type: 'bar',
+      data: {
+        labels: ['SP', 'RJ', 'MG', 'PR'],
+        datasets: [{
+          label: 'CTes por Estado',
+          data: [10, 15, 4, 8],
+          backgroundColor: '#1E90FF'
+        }]
+      },
+      options: { responsive: true }
+    });
+  </script>
+</body>
+</html>
