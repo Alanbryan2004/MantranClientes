@@ -173,9 +173,8 @@
     new Chart(document.getElementById('graficoDespesas'), {
       type: 'bar',
       data: {
-        labels: ['Aluguel', 'Salários', 'Serviços', 'Outros'],
+        labels: ['Despesas Operacionais', 'Salários', 'Despesas Financeiras', 'Terceiros'],
         datasets: [{
-          label: 'Despesas - Mês Atual',
           data: [1500, 3000, 800, 500],
           backgroundColor: '#8B0000'
         }]
@@ -186,7 +185,7 @@
     new Chart(document.getElementById('graficoReceitas'), {
       type: 'bar',
       data: {
-        labels: ['Vendas', 'Serviços', 'Outros'],
+        labels: ['CTes', 'NFSe', 'Outros'],
         datasets: [{
           label: 'Receitas - Mês Atual',
           data: [4000, 1200, 300],
@@ -202,7 +201,7 @@
         labels: ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4'],
         datasets: [
           {
-            label: 'Receitas',
+          
             data: [1000, 1200, 1500, 1800],
             borderColor: '#228B22',
             fill: false
