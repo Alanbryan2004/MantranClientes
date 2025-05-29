@@ -150,7 +150,7 @@
     <div class="main">
       <div class="topbar">
         <button id="menuButton"><i class="material-icons">menu</i></button>
-        CTEs do Dia
+        <span id="titulo-ctes">CTEs do Dia</span>
       </div>
 
       <table>
@@ -194,6 +194,12 @@
         sidebar.classList.remove('active');
       }
     });
+
+    // Aqui adicionamos o código para atualizar o título com a data do dia:
+    const dataHoje = new Date();
+    const opcoes = { day: '2-digit', month: '2-digit', year: 'numeric' };
+    const dataFormatada = dataHoje.toLocaleDateString('pt-BR', opcoes);
+    document.getElementById('titulo-ctes').textContent = `CTEs do Dia - ${dataFormatada}`;
   </script>
 </body>
 </html>
