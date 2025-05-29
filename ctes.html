@@ -147,10 +147,11 @@
       <a href="index.html" class="menu-item"><i class="material-icons">exit_to_app</i>Sair</a>
     </div>
 
- <div class="topbar">
-  <button id="menuButton"><i class="material-icons">menu</i></button>
-  <span id="titulo-ctes">Ctes do Dia</span>
-</div>
+    <div class="main">
+      <div class="topbar">
+        <button id="menuButton"><i class="material-icons">menu</i></button>
+        CTEs do Dia
+      </div>
 
       <table>
         <thead>
@@ -168,7 +169,7 @@
           </tr>
           <tr>
             <td>100988</td>
-            <td>Gucci</td>
+            <td>Gucci IG</td>
             <td>Campinas</td>
           </tr>
           <tr>
@@ -193,10 +194,6 @@
         sidebar.classList.remove('active');
       }
     });
-const dataHoje = new Date();
-const opcoes = { day: '2-digit', month: '2-digit', year: 'numeric' };
-const dataFormatada = dataHoje.toLocaleDateString('pt-BR', opcoes);
-document.getElementById('titulo-ctes').textContent = `Ctes do Dia - ${dataFormatada}`;
   </script>
 </body>
 </html>
