@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CTEs do Dia</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -11,19 +12,107 @@
       color: white;
       margin: 0;
       padding: 0;
+      height: 100vh;
+      overflow: hidden;
     }
+    .container {
+      display: flex;
+      height: 100%;
+      width: 100%;
+      flex-direction: row;
+    }
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      background-color: #fff;
+      color: #000;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+      position: fixed;
+      top: 0; left: 0;
+      height: 100vh;
+      z-index: 999;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      overflow-y: auto;
+    }
+    .sidebar.active { transform: translateX(0); }
+    .sidebar-header {
+      background: linear-gradient(to right, #8B0000, #000000);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      user-select: none;
+    }
+    .sidebar-header img {
+      width: 60px;
+      margin-bottom: 10px;
+    }
+    .menu-item {
+      margin: 20px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      color: #000;
+      font-weight: 500;
+      text-decoration: none;
+      user-select: none;
+    }
+    .menu-item i {
+      margin-right: 10px;
+      color: #8B0000;
+    }
+    .menu-item:hover {
+      background-color: #f2f2f2;
+      border-radius: 5px;
+    }
+    /* Main */
+    .main {
+      flex: 1;
+      margin-left: 0;
+      width: 100%;
+      transition: margin-left 0.3s ease;
+      position: relative;
+      z-index: 1;
+      overflow-y: auto;
+      height: 100vh;
+      box-sizing: border-box;
+      padding: 60px 20px 20px 20px;
+    }
+    /* Topbar */
     .topbar {
-      background-color: #8B0000;
-      padding: 15px;
+      background: linear-gradient(to right, #8B0000, #000000);
+      color: white;
+      padding: 15px 20px;
       font-size: 20px;
       text-align: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 998;
+      user-select: none;
     }
+    .topbar button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 28px;
+      cursor: pointer;
+      position: absolute;
+      left: 15px;
+      top: 12px;
+      user-select: none;
+    }
+    /* Table */
     table {
       width: 100%;
       border-collapse: collapse;
       background-color: white;
       color: black;
-      margin-top: 20px;
+      margin-top: 10px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
     }
     th, td {
       padding: 12px;
@@ -34,38 +123,77 @@
       background-color: #8B0000;
       color: white;
     }
+    /* Responsive adjustments */
+    @media (min-width: 768px) {
+      .main { margin-left: 250px; }
+      .sidebar { transform: translateX(0); }
+    }
   </style>
 </head>
 <body>
+  <div class="container">
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <img src="Logo.png" alt="Logo Mantran" />
+        <h2>José Marcio Ruiz</h2>
+        <p>Mantran Transportes</p>
+      </div>
+      <a href="localize.html" class="menu-item"><i class="material-icons">local_shipping</i>Localize Cargas</a>
+      <a href="https://www.mantranweb.com.br" class="menu-item"><i class="material-icons">receipt_long</i>Web Faturas</a>
+      <div class="menu-item"><i class="material-icons">warehouse</i>Estoque Armazém</div>
+      <div class="menu-item"><i class="material-icons">attach_money</i>Cotação</div>
+      <a href="financeiro.html" class="menu-item"><i class="material-icons">insert_chart</i>Financeiro</a> 
+      <a href="operacional.html" class="menu-item"><i class="material-icons">local_shipping</i>Operacional</a>
+      <a href="index.html" class="menu-item"><i class="material-icons">exit_to_app</i>Sair</a>
+    </div>
 
-  <div class="topbar">CTEs do Dia</div>
+    <div class="main">
+      <div class="topbar">
+        <button id="menuButton"><i class="material-icons">menu</i></button>
+        CTEs do Dia
+      </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Número</th>
-        <th>Cliente</th>
-        <th>Cidade Destino</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>100987</td>
-        <td>Cliente X</td>
-        <td>Curitiba</td>
-      </tr>
-      <tr>
-        <td>100988</td>
-        <td>Cliente Y</td>
-        <td>Florianópolis</td>
-      </tr>
-      <tr>
-        <td>100989</td>
-        <td>Cliente Z</td>
-        <td>Porto Alegre</td>
-      </tr>
-    </tbody>
-  </table>
+      <table>
+        <thead>
+          <tr>
+            <th>Número</th>
+            <th>Cliente</th>
+            <th>Cidade Destino</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>100987</td>
+            <td>Cliente X</td>
+            <td>Curitiba</td>
+          </tr>
+          <tr>
+            <td>100988</td>
+            <td>Cliente Y</td>
+            <td>Florianópolis</td>
+          </tr>
+          <tr>
+            <td>100989</td>
+            <td>Cliente Z</td>
+            <td>Porto Alegre</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const menuButton = document.getElementById('menuButton');
+    menuButton.addEventListener('click', function (e) {
+      e.stopPropagation();
+      sidebar.classList.toggle('active');
+    });
+    document.addEventListener('click', function (event) {
+      if (!sidebar.contains(event.target) && event.target !== menuButton) {
+        sidebar.classList.remove('active');
+      }
+    });
+  </script>
 </body>
 </html>
