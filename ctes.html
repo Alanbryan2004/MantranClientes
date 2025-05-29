@@ -149,7 +149,7 @@
 
  <div class="topbar">
   <button id="menuButton"><i class="material-icons">menu</i></button>
-  <span id="titulo-coletas">Ctes do Dia</span>
+  <span id="titulo-ctes">Ctes do Dia</span>
 </div>
 
       <table>
@@ -196,7 +196,7 @@
 const dataHoje = new Date();
 const opcoes = { day: '2-digit', month: '2-digit', year: 'numeric' };
 const dataFormatada = dataHoje.toLocaleDateString('pt-BR', opcoes);
-document.getElementById('titulo-coletas').textContent = `Coletas do Dia - ${dataFormatada}`;
+document.getElementById('titulo-ctes').textContent = `Ctes do Dia - ${dataFormatada}`;
   </script>
 </body>
 </html>
