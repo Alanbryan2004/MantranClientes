@@ -106,7 +106,28 @@
       width: 320px;
       box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
     }
-    canvas { max-width: 100%; height: auto; }
+    .table-container {
+      background-color: #fff;
+      color: #000;
+      border-radius: 10px;
+      padding: 20px;
+      width: 95%;
+      max-width: 800px;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+      margin-top: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border-bottom: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
     @media (min-width: 768px) {
       .main { margin-left: 250px; }
       .topbar { left: 250px; }
@@ -139,6 +160,52 @@
         <div class="card">
           <h3>Distribuição por Categoria</h3>
           <canvas id="graficoCategorias"></canvas>
+        </div>
+
+        <div class="table-container">
+          <h3>Contas com Vencimento Hoje</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Data Vencimento</th>
+                <th>Nº Título</th>
+                <th>Descrição</th>
+                <th>Valor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>28/05/2025</td>
+                <td>FIN-001</td>
+                <td>Aluguel do Escritório</td>
+                <td>R$ 1.200,00</td>
+              </tr>
+              <tr>
+                <td>28/05/2025</td>
+                <td>FIN-002</td>
+                <td>Pagamento de Energia</td>
+                <td>R$ 350,00</td>
+              </tr>
+              <tr>
+                <td>28/05/2025</td>
+                <td>FIN-003</td>
+                <td>Internet Corporativa</td>
+                <td>R$ 280,00</td>
+              </tr>
+              <tr>
+                <td>28/05/2025</td>
+                <td>FIN-004</td>
+                <td>Seguro Frota</td>
+                <td>R$ 980,00</td>
+              </tr>
+              <tr>
+                <td>28/05/2025</td>
+                <td>FIN-005</td>
+                <td>Limpeza Escritório</td>
+                <td>R$ 150,00</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
