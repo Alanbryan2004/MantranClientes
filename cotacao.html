@@ -113,7 +113,8 @@
       font-weight: bold;
       margin-bottom: 5px;
     }
-    .form-group input {
+    .form-group input,
+    .form-group select {
       width: 100%;
       padding: 10px;
       font-size: 16px;
@@ -168,6 +169,23 @@
       <div class="content">
         <h2>Informe os dados para cotação</h2>
         <div class="form-group">
+          <label for="classeVeiculo">Classe do Veículo:</label>
+          <select id="classeVeiculo">
+            <option value="" disabled selected>Selecione o veículo</option>
+            <option>MOTO</option>
+            <option>FIORINO</option>
+            <option>VUC</option>
+            <option>TOCO</option>
+            <option>TRUCK</option>
+            <option>CAVALO MECANICO</option>
+            <option>VEICULO PASSEIO</option>
+            <option>CARRETA</option>
+            <option>3/4</option>
+            <option>VAN</option>
+            <option>HR</option>
+          </select>
+        </div>
+        <div class="form-group">
           <label for="peso">Peso (kg):</label>
           <input type="number" id="peso" placeholder="Ex: 150" />
         </div>
@@ -203,10 +221,17 @@
     });
 
     function calcularFrete() {
+      const classeVeiculo = document.getElementById('classeVeiculo').value;
       const peso = parseFloat(document.getElementById('peso').value);
       const origem = document.getElementById('origem').value.trim();
       const destino = document.getElementById('destino').value.trim();
       const resultado = document.getElementById('resultado');
+
+      if (!classeVeiculo) {
+        resultado.textContent = "Selecione a classe do veículo.";
+        resultado.style.color = "red";
+        return;
+      }
 
       if (!peso || !origem || !destino) {
         resultado.textContent = "Preencha todos os campos corretamente.";
@@ -214,11 +239,13 @@
         return;
       }
 
+      // Aqui você pode ajustar o cálculo conforme a classe do veículo, por enquanto é fixo
       const preco = (peso * 0.75 + 50).toFixed(2);
-      const prazoDias = 3; // Simulação de prazo
+      const prazoDias = 3; // Simulação de prazo fixo
 
       resultado.style.color = "green";
       resultado.innerHTML = `
+        Veículo: <strong>${classeVeiculo}</strong><br/>
         Frete de <strong>R$ ${preco}</strong> para entrega de <strong>${origem}</strong> até <strong>${destino}</strong>.<br/>
         Prazo estimado de entrega: <strong>${prazoDias} dias úteis</strong>.
       `;
