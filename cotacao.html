@@ -1,225 +1,53 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cotação de Frete</title>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #8B0000, #000000);
-      color: white;
-      height: 100vh;
-    }
-    .container {
-      display: flex;
-      height: 100%;
-    }
-    .sidebar {
-      width: 250px;
-      background-color: white;
-      color: black;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.3);
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100vh;
-      z-index: 999;
-      transform: translateX(-100%);
-      transition: transform 0.3s ease;
-    }
-    .sidebar.active { transform: translateX(0); }
-    .sidebar-header {
-      background: linear-gradient(to right, #8B0000, #000000);
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-    .sidebar-header img {
-      width: 60px;
-      margin-bottom: 10px;
-    }
-    .menu-item {
-      margin: 20px;
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-      color: #000000;
-      font-weight: 500;
-      text-decoration: none;
-    }
-    .menu-item i {
-      margin-right: 10px;
-      color: #8B0000;
-    }
-    .main {
-      flex: 1;
-      margin-left: 0;
-      width: 100%;
-      transition: margin-left 0.3s ease;
-      position: relative;
-      z-index: 1;
-    }
-    .topbar {
-      background: linear-gradient(to right, #8B0000, #000000);
-      color: white;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      width: 100%;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 998;
-      height: 60px;
-    }
-    .topbar button {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 24px;
-      cursor: pointer;
-      margin-left: 10px;
-    }
-    .content {
-      margin-top: 60px;
-      padding: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: calc(100vh - 60px);
-    }
-    .card {
-      background-color: #fff;
-      color: #000;
-      border-radius: 10px;
-      padding: 30px;
-      width: 100%;
-      max-width: 500px;
-      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
-    }
-    .card h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .form-group {
-      margin-bottom: 15px;
-    }
-    .form-group label {
-      font-weight: bold;
-    }
-    .form-group input, .form-group select {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    button {
-      background-color: #8B0000;
-      color: white;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      width: 100%;
-      font-size: 16px;
-      margin-top: 10px;
-    }
-    .resultado {
-      margin-top: 20px;
-      font-weight: bold;
-      text-align: center;
-    }
-    @media (min-width: 768px) {
-      .main { margin-left: 250px; }
-      .topbar { left: 250px; }
-      .sidebar { transform: translateX(0); }
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="sidebar" id="sidebar">
-      <div class="sidebar-header">
-        <img src="Logo.png" alt="Logo Mantran" />
-        <h2>José Marcio Ruiz</h2>
-        <p>Mantran Transportes</p>
-      </div>
-      <a href="home.html" class="menu-item"><i class="material-icons">home</i>Home</a>
-      <a href="localize.html" class="menu-item"><i class="material-icons">local_shipping</i>Localize Cargas</a>
-      <a href="https://www.mantranweb.com.br" class="menu-item"><i class="material-icons">receipt_long</i>Web Faturas</a>
-      <a href="#" class="menu-item"><i class="material-icons">warehouse</i>Estoque Armazém</a>
-      <a href="cotacao.html" class="menu-item"><i class="material-icons">attach_money</i>Cotação</a>
-      <a href="financeiro.html" class="menu-item"><i class="material-icons">insert_chart</i>Financeiro</a>
-      <a href="operacional.html" class="menu-item"><i class="material-icons">local_shipping</i>Operacional</a>
-      <a href="index.html" class="menu-item"><i class="material-icons">exit_to_app</i>Sair</a>
-    </div>
+.sidebar {
+  width: 250px;
+  background-color: white;
+  color: black;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 999;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+.sidebar.active {
+  transform: translateX(0);
+}
 
-    <div class="main">
-      <div class="topbar">
-        <button id="menuButton"><i class="material-icons">menu</i></button>
-        <h1 style="margin-left: 15px; font-size: 20px;">Cotação de Frete</h1>
-      </div>
+.main {
+  flex: 1;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  margin-left: 0;
+  transition: margin-left 0.3s ease;
+}
 
-      <div class="content">
-        <div class="card">
-          <h2>Simule seu Frete</h2>
-          <div class="form-group">
-            <label for="origem">Cidade de Origem:</label>
-            <input type="text" id="origem" placeholder="Ex: São Paulo - SP" />
-          </div>
-          <div class="form-group">
-            <label for="destino">Cidade de Destino:</label>
-            <input type="text" id="destino" placeholder="Ex: Curitiba - PR" />
-          </div>
-          <div class="form-group">
-            <label for="peso">Peso (kg):</label>
-            <input type="number" id="peso" placeholder="Ex: 150" />
-          </div>
-          <button onclick="calcular()">Calcular Cotação</button>
-          <div class="resultado" id="resultado"></div>
-        </div>
-      </div>
-    </div>
-  </div>
+.topbar {
+  background: linear-gradient(to right, #8B0000, #000000);
+  color: white;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 998;
+  height: 60px;
+  transition: left 0.3s ease;
+}
 
-  <script>
-    const sidebar = document.getElementById('sidebar');
-    const menuButton = document.getElementById('menuButton');
-    menuButton.addEventListener('click', function (e) {
-      e.stopPropagation();
-      sidebar.classList.toggle('active');
-    });
-    document.addEventListener('click', function (event) {
-      if (!sidebar.contains(event.target) && event.target !== menuButton) {
-        sidebar.classList.remove('active');
-      }
-    });
-
-    function calcular() {
-      const origem = document.getElementById('origem').value.trim();
-      const destino = document.getElementById('destino').value.trim();
-      const peso = parseFloat(document.getElementById('peso').value);
-
-      if (!origem || !destino || isNaN(peso) || peso <= 0) {
-        document.getElementById('resultado').innerText = 'Preencha todos os campos corretamente.';
-        return;
-      }
-
-      // Simulação de regra fictícia
-      const base = 50;
-      const fator = 0.85;
-      const valorFrete = (base + peso * fator).toFixed(2);
-      const prazoEntrega = Math.ceil(2 + peso / 100);
-
-      document.getElementById('resultado').innerHTML =
-        `Valor estimado: <strong>R$ ${valorFrete}</strong><br>PRAZO: <strong>${prazoEntrega} dias úteis</strong>`;
-    }
-  </script>
-</body>
-</html>
+@media (min-width: 768px) {
+  .sidebar {
+    transform: translateX(0);
+  }
+  .main {
+    margin-left: 250px;
+  }
+  .topbar {
+    left: 250px;
+  }
+}
