@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cotação de Frete</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    /* TODO: Mantém os estilos principais já existentes... */
+    /* Copiei aqui apenas os ajustes necessários adicionais */
+
+    .form-box {
+      background-color: #fff;
+      color: #000;
+      padding: 20px;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0px 2px 5px rgba(0,0,0,0.3);
+    }
+
+    .form-box label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    .form-box input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .form-box button {
+      background-color: #8B0000;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .form-box button:hover {
+      background-color: #a30000;
+    }
+
+    .resultado {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <img src="Logo.png" alt="Logo Mantran" />
+        <h2>José Marcio Ruiz</h2>
+        <p>Mantran Transportes</p>
+      </div>
+      <a href="home.html" class="menu-item"><i class="material-icons">home</i>Home</a>
+      <a href="localize.html" class="menu-item"><i class="material-icons">local_shipping</i>Localize Cargas</a>
+      <a href="https://www.mantranweb.com.br" class="menu-item"><i class="material-icons">receipt_long</i>Web Faturas</a>
+      <div class="menu-item"><i class="material-icons">warehouse</i>Estoque Armazém</div>
+      <div class="menu-item"><i class="material-icons">attach_money</i>Cotação</div>
+      <a href="financeiro.html" class="menu-item"><i class="material-icons">insert_chart</i>Financeiro</a>
+      <a href="operacional.html" class="menu-item"><i class="material-icons">local_shipping</i>Operacional</a>
+      <a href="index.html" class="menu-item"><i class="material-icons">exit_to_app</i>Sair</a>
+    </div>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <div class="main">
+      <div class="topbar">
+        <button id="menuButton"><i class="material-icons">menu</i></button>
+        <h1 style="margin-left: 15px; font-size: 20px;">Cotação de Frete</h1>
+      </div>
+
+      <div class="content">
+        <div class="form-box">
+          <label for="origem">Cidade de Origem:</label>
+          <input type="text" id="origem" placeholder="Ex: São Paulo/SP">
+
+          <label for="destino">Cidade de Destino:</label>
+          <input type="text" id="destino" placeholder="Ex: Curitiba/PR">
+
+          <label for="peso">Peso da Mercadoria (kg):</label>
+          <input type="number" id="peso" placeholder="Ex: 150">
+
+          <button onclick="calcularFrete()">Calcular Frete</button>
+
+          <div class="resultado" id="resultado"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const menuButton = document.getElementById('menuButton');
+
+    menuButton.addEventListener('click', function (e) {
+      e.stopPropagation();
+      sidebar.classList.toggle('active');
+    });
+
+    document.addEventListener('click', function (event) {
+      if (!sidebar.contains(event.target) && event.target !== menuButton) {
+        sidebar.classList.remove('active');
+      }
+    });
+
+    async function calcularFrete() {
+      const origem = document.getElementById('origem').value.trim();
+      const destino = document.getElementById('destino').value.trim();
+      const peso = parseFloat(document.getElementById('peso').value);
+      const resultado = document.getElementById('resultado');
+
+      if (!origem || !destino || isNaN(peso) || peso <= 0) {
+        resultado.innerHTML = 'Preencha todos os campos corretamente.';
+        return;
+      }
+
+      resultado.innerHTML = 'Calculando...';
+
+      try {
+        const res = await fetch('https://api.seuservidor.com/cotar', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ origem, destino, peso })
+        });
+
+        const dados = await res.json();
+        resultado.innerHTML = `🚛 Frete: <strong>R$ ${dados.valorFrete.toFixed(2)}</strong><br>⏱️ Prazo: <strong>${dados.prazoEntregaDias} dias úteis</strong>`;
+      } catch (e) {
+        resultado.innerHTML = 'Erro ao calcular frete. Verifique a conexão ou tente mais tarde.';
+      }
+    }
+  </script>
+</body>
+</html>
