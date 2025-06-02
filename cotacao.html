@@ -2,61 +2,123 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cotação de Frete</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Operacional - Visão Geral</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    /* TODO: Mantém os estilos principais já existentes... */
-    /* Copiei aqui apenas os ajustes necessários adicionais */
-
-    .form-box {
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #8B0000, #000000);
+      color: #ffffff;
+      height: 100vh;
+    }
+    .container {
+      display: flex;
+      height: 100%;
+      width: 100%;
+      flex-direction: row;
+    }
+    .sidebar {
+      width: 250px;
+      background-color: #ffffff;
+      color: #000000;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      z-index: 999;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+    }
+    .sidebar.active { transform: translateX(0); }
+    .sidebar-header {
+      background: linear-gradient(to right, #8B0000, #000000);
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    .sidebar-header img {
+      width: 60px;
+      margin-bottom: 10px;
+    }
+    .menu-item {
+      margin: 20px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      color: #000000;
+      font-weight: 500;
+      text-decoration: none;
+    }
+    .menu-item i {
+      margin-right: 10px;
+      color: #8B0000;
+    }
+    .main {
+      flex: 1;
+      margin-left: 0;
+      width: 100%;
+      transition: margin-left 0.3s ease;
+      position: relative;
+      z-index: 1;
+    }
+    .topbar {
+      background: linear-gradient(to right, #8B0000, #000000);
+      color: white;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 998;
+      height: 60px;
+    }
+    .topbar button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    .content {
+      margin-top: 60px;
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .card {
       background-color: #fff;
       color: #000;
-      padding: 20px;
       border-radius: 10px;
-      width: 100%;
-      max-width: 500px;
-      box-shadow: 0px 2px 5px rgba(0,0,0,0.3);
-    }
-
-    .form-box label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
-
-    .form-box input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-
-    .form-box button {
-      background-color: #8B0000;
-      color: #fff;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 5px;
+      padding: 20px;
+      width: 300px;
       cursor: pointer;
-      font-size: 16px;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s ease;
+      text-align: center;
     }
-
-    .form-box button:hover {
-      background-color: #a30000;
-    }
-
-    .resultado {
-      margin-top: 20px;
-      font-weight: bold;
-      color: #000;
+    .card:hover { transform: scale(1.05); }
+    canvas { max-width: 100%; height: auto; }
+    @media (min-width: 768px) {
+      .main { margin-left: 250px; }
+      .topbar { left: 250px; }
+      .sidebar { transform: translateX(0); }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <!-- SIDEBAR -->
     <div class="sidebar" id="sidebar">
       <div class="sidebar-header">
         <img src="Logo.png" alt="Logo Mantran" />
@@ -68,32 +130,21 @@
       <a href="https://www.mantranweb.com.br" class="menu-item"><i class="material-icons">receipt_long</i>Web Faturas</a>
       <div class="menu-item"><i class="material-icons">warehouse</i>Estoque Armazém</div>
       <div class="menu-item"><i class="material-icons">attach_money</i>Cotação</div>
-      <a href="financeiro.html" class="menu-item"><i class="material-icons">insert_chart</i>Financeiro</a>
+      <a href="financeiro.html" class="menu-item"><i class="material-icons">insert_chart</i>Financeiro</a> 
       <a href="operacional.html" class="menu-item"><i class="material-icons">local_shipping</i>Operacional</a>
       <a href="index.html" class="menu-item"><i class="material-icons">exit_to_app</i>Sair</a>
     </div>
 
-    <!-- CONTEÚDO PRINCIPAL -->
     <div class="main">
       <div class="topbar">
         <button id="menuButton"><i class="material-icons">menu</i></button>
-        <h1 style="margin-left: 15px; font-size: 20px;">Cotação de Frete</h1>
+        <h1 style="margin-left: 15px; font-size: 20px;">Operacional - Visão Geral</h1>
       </div>
 
       <div class="content">
-        <div class="form-box">
-          <label for="origem">Cidade de Origem:</label>
-          <input type="text" id="origem" placeholder="Ex: São Paulo/SP">
-
-          <label for="destino">Cidade de Destino:</label>
-          <input type="text" id="destino" placeholder="Ex: Curitiba/PR">
-
-          <label for="peso">Peso da Mercadoria (kg):</label>
-          <input type="number" id="peso" placeholder="Ex: 150">
-
-          <button onclick="calcularFrete()">Calcular Frete</button>
-
-          <div class="resultado" id="resultado"></div>
+        <div class="card" onclick="location.href='graficos_operacional.html'">
+          <h3>Distribuição Operacional</h3>
+          <canvas id="graficoPizza"></canvas>
         </div>
       </div>
     </div>
@@ -102,44 +153,37 @@
   <script>
     const sidebar = document.getElementById('sidebar');
     const menuButton = document.getElementById('menuButton');
-
     menuButton.addEventListener('click', function (e) {
       e.stopPropagation();
       sidebar.classList.toggle('active');
     });
-
     document.addEventListener('click', function (event) {
       if (!sidebar.contains(event.target) && event.target !== menuButton) {
         sidebar.classList.remove('active');
       }
     });
 
-    async function calcularFrete() {
-      const origem = document.getElementById('origem').value.trim();
-      const destino = document.getElementById('destino').value.trim();
-      const peso = parseFloat(document.getElementById('peso').value);
-      const resultado = document.getElementById('resultado');
-
-      if (!origem || !destino || isNaN(peso) || peso <= 0) {
-        resultado.innerHTML = 'Preencha todos os campos corretamente.';
-        return;
+    new Chart(document.getElementById('graficoPizza'), {
+      type: 'pie',
+      data: {
+        labels: ['Coletas', 'CTes'],
+        datasets: [{
+          data: [60, 40],
+          backgroundColor: ['#FFD700', '#8B0000']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              color: '#000'
+            }
+          }
+        }
       }
-
-      resultado.innerHTML = 'Calculando...';
-
-      try {
-        const res = await fetch('https://api.seuservidor.com/cotar', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ origem, destino, peso })
-        });
-
-        const dados = await res.json();
-        resultado.innerHTML = `🚛 Frete: <strong>R$ ${dados.valorFrete.toFixed(2)}</strong><br>⏱️ Prazo: <strong>${dados.prazoEntregaDias} dias úteis</strong>`;
-      } catch (e) {
-        resultado.innerHTML = 'Erro ao calcular frete. Verifique a conexão ou tente mais tarde.';
-      }
-    }
+    });
   </script>
 </body>
 </html>
