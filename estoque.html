@@ -33,6 +33,12 @@
       position: fixed;
       height: 100%;
       z-index: 10;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar.active {
+      transform: translateX(0);
     }
 
     .sidebar-header {
@@ -62,21 +68,33 @@
 
     .main {
       flex: 1;
-      margin-left: 250px;
+      margin-left: 0;
+      transition: margin-left 0.3s ease;
+      width: 100%;
     }
 
     .topbar {
       background: linear-gradient(to right, #8B0000, #000000);
       color: white;
-      padding: 10px 20px;
+      padding: 0;
+      margin: 0;
       display: flex;
       align-items: center;
+      width: 100%;
       position: fixed;
       top: 0;
-      left: 250px;
-      width: calc(100% - 250px);
+      left: 0;
       z-index: 20;
       height: 60px;
+    }
+
+    .topbar button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      margin-left: 10px;
     }
 
     .content {
@@ -131,11 +149,24 @@
     canvas {
       max-width: 100%;
     }
+
+    @media (min-width: 768px) {
+      .main {
+        margin-left: 250px;
+      }
+      .topbar {
+        left: 250px;
+        width: calc(100% - 250px);
+      }
+      .sidebar {
+        transform: translateX(0);
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="sidebar">
+    <div class="sidebar" id="sidebar">
       <div class="sidebar-header">
         <img src="logo.png" alt="Logo Mantran" />
         <h2>José Marcio Ruiz</h2>
@@ -150,11 +181,12 @@
 
     <div class="main">
       <div class="topbar">
-        <h1 style="font-size: 20px;">Estoque Armazém</h1>
+        <button id="menuButton"><i class="material-icons">menu</i></button>
+        <h1 style="margin-left: 15px; font-size: 20px;">Estoque Armazém</h1>
       </div>
 
       <div class="content" id="estoqueLista">
-        <!-- Exemplo de itens do estoque -->
+        <!-- Itens de exemplo -->
         <div class="item" onclick="mostrarGrafico('Produto A', 40)">
           Produto A <strong>40 un.</strong>
         </div>
@@ -184,11 +216,13 @@
     const modal = document.getElementById("graficoModal");
     const titulo = document.getElementById("graficoTitulo");
     const ctx = document.getElementById("graficoPizza").getContext("2d");
+    const sidebar = document.getElementById("sidebar");
+    const menuButton = document.getElementById("menuButton");
 
     let chart;
 
     function mostrarGrafico(produto, quantidade) {
-      const total = 40 + 30 + 20 + 10; // Total fictício
+      const total = 40 + 30 + 20 + 10;
       const percentual = ((quantidade / total) * 100).toFixed(1);
 
       titulo.innerText = `${produto} - ${percentual}% do estoque`;
@@ -217,6 +251,18 @@
         fecharModal();
       }
     }
+
+    // Toggle da sidebar
+    menuButton.addEventListener('click', function (e) {
+      e.stopPropagation();
+      sidebar.classList.toggle('active');
+    });
+
+    document.addEventListener('click', function (event) {
+      if (!sidebar.contains(event.target) && event.target !== menuButton) {
+        sidebar.classList.remove('active');
+      }
+    });
   </script>
 </body>
 </html>
