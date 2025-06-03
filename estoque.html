@@ -32,7 +32,7 @@
       background-color: #1a1a1a;
       position: fixed;
       height: 100%;
-      z-index: 10;
+      z-index: 30; /* Aumentei aqui */
       transform: translateX(-100%);
       transition: transform 0.3s ease;
     }
@@ -153,6 +153,7 @@
     @media (min-width: 768px) {
       .sidebar {
         transform: translateX(0);
+        z-index: 30; /* garantir em telas maiores */
       }
 
       .main {
@@ -212,6 +213,8 @@
     const ctx = document.getElementById("graficoPizza").getContext("2d");
     const sidebar = document.getElementById("sidebar");
     const menuButton = document.getElementById("menuButton");
+    const main = document.querySelector('.main');
+    const topbar = document.querySelector('.topbar');
 
     let chart;
 
@@ -249,11 +252,24 @@
     menuButton.addEventListener('click', function (e) {
       e.stopPropagation();
       sidebar.classList.toggle('active');
+
+      if(sidebar.classList.contains('active')) {
+        main.style.marginLeft = '250px';
+        topbar.style.left = '250px';
+        topbar.style.width = 'calc(100% - 250px)';
+      } else {
+        main.style.marginLeft = '0';
+        topbar.style.left = '0';
+        topbar.style.width = '100%';
+      }
     });
 
     document.addEventListener('click', function (event) {
       if (!sidebar.contains(event.target) && event.target !== menuButton) {
         sidebar.classList.remove('active');
+        main.style.marginLeft = '0';
+        topbar.style.left = '0';
+        topbar.style.width = '100%';
       }
     });
   </script>
