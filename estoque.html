@@ -67,10 +67,9 @@
     }
 
     .main {
-      flex: 1;
       margin-left: 0;
-      transition: margin-left 0.3s ease;
       width: 100%;
+      transition: margin-left 0.3s ease;
     }
 
     .topbar {
@@ -86,6 +85,7 @@
       left: 0;
       z-index: 20;
       height: 60px;
+      transition: left 0.3s ease, width 0.3s ease;
     }
 
     .topbar button {
@@ -151,15 +151,18 @@
     }
 
     @media (min-width: 768px) {
+      .sidebar {
+        transform: translateX(0);
+      }
+
       .main {
         margin-left: 250px;
+        width: calc(100% - 250px);
       }
+
       .topbar {
         left: 250px;
         width: calc(100% - 250px);
-      }
-      .sidebar {
-        transform: translateX(0);
       }
     }
   </style>
@@ -186,19 +189,10 @@
       </div>
 
       <div class="content" id="estoqueLista">
-        <!-- Itens de exemplo -->
-        <div class="item" onclick="mostrarGrafico('Produto A', 40)">
-          Produto A <strong>40 un.</strong>
-        </div>
-        <div class="item" onclick="mostrarGrafico('Produto B', 30)">
-          Produto B <strong>30 un.</strong>
-        </div>
-        <div class="item" onclick="mostrarGrafico('Produto C', 20)">
-          Produto C <strong>20 un.</strong>
-        </div>
-        <div class="item" onclick="mostrarGrafico('Produto D', 10)">
-          Produto D <strong>10 un.</strong>
-        </div>
+        <div class="item" onclick="mostrarGrafico('Produto A', 40)">Produto A <strong>40 un.</strong></div>
+        <div class="item" onclick="mostrarGrafico('Produto B', 30)">Produto B <strong>30 un.</strong></div>
+        <div class="item" onclick="mostrarGrafico('Produto C', 20)">Produto C <strong>20 un.</strong></div>
+        <div class="item" onclick="mostrarGrafico('Produto D', 10)">Produto D <strong>10 un.</strong></div>
       </div>
     </div>
   </div>
@@ -252,7 +246,6 @@
       }
     }
 
-    // Toggle da sidebar
     menuButton.addEventListener('click', function (e) {
       e.stopPropagation();
       sidebar.classList.toggle('active');
