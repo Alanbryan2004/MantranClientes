@@ -4,188 +4,252 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Estoque Armazém</title>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <title>Cotação de Frete</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <style>
+    * { box-sizing: border-box; }
     body {
       margin: 0;
+      padding: 0;
       font-family: Arial, sans-serif;
-      background: #f5f5f5;
+      background: linear-gradient(to right, #8B0000, #000000);
+      color: #ffffff;
+      height: 100vh;
     }
-
     .container {
       display: flex;
+      height: 100%;
+      width: 100%;
+      flex-direction: row;
     }
-
     .sidebar {
       width: 250px;
-      background-color: #fff;
-      height: 100vh;
+      background-color: #ffffff;
+      color: #000000;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.3);
       position: fixed;
-      left: 0;
       top: 0;
-      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+      left: 0;
+      height: 100vh;
       z-index: 999;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
     }
-
+    .sidebar.active {
+      transform: translateX(0);
+    }
     .sidebar-header {
       background: linear-gradient(to right, #8B0000, #000000);
       color: white;
       padding: 20px;
       text-align: center;
     }
-
-    .sidebar a {
-      display: block;
-      padding: 15px;
-      color: #000;
+    .sidebar-header img {
+      width: 60px;
+      margin-bottom: 10px;
+    }
+    .menu-item {
+      margin: 20px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      color: #000000;
+      font-weight: 500;
       text-decoration: none;
     }
-
-    .sidebar a:hover {
-      background-color: #eee;
+    .menu-item i {
+      margin-right: 10px;
+      color: #8B0000;
     }
-
     .main {
-      margin-left: 250px;
-      padding: 20px;
       flex: 1;
+      margin-left: 0;
+      width: 100%;
+      transition: margin-left 0.3s ease;
+      position: relative;
+      z-index: 1;
     }
-
     .topbar {
       background: linear-gradient(to right, #8B0000, #000000);
       color: white;
-      padding: 15px;
-      font-size: 20px;
-    }
-
-    .content {
+      padding: 0;
+      margin: 0;
       display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      margin-top: 20px;
-    }
-
-    .list {
-      flex: 1;
-      max-width: 50%;
-      overflow-y: auto;
-      max-height: 500px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      padding: 10px;
-    }
-
-    .item {
-      padding: 10px;
-      border-bottom: 1px solid #ccc;
-      cursor: pointer;
-    }
-
-    .item:hover {
-      background-color: #f0f0f0;
-    }
-
-    .chart-container {
-      flex: 1;
-      max-width: 45%;
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-
-    canvas {
+      align-items: center;
       width: 100%;
-      height: auto;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 998;
+      height: 60px;
+    }
+    .topbar button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    .content {
+      margin-top: 80px;
+      padding: 20px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: #fff;
+      color: #000;
+      border-radius: 10px;
+      box-shadow: 0px 2px 10px rgba(0,0,0,0.3);
+    }
+    .content h2 {
+      text-align: center;
+      color: #8B0000;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+    }
+    .form-group button {
+      background-color: #8B0000;
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+      border-radius: 5px;
+    }
+    .resultado {
+      margin-top: 20px;
+      font-size: 18px;
+      text-align: center;
+    }
+    @media (min-width: 768px) {
+      .main { margin-left: 250px; }
+      .topbar { left: 250px; }
+      .sidebar { transform: translateX(0); }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="sidebar">
+    <div class="sidebar" id="sidebar">
       <div class="sidebar-header">
-        <h3>Mantran</h3>
+        <img src="Logo.png" alt="Logo Mantran" />
+        <h2>José Marcio Ruiz</h2>
+        <p>Mantran Transportes</p>
       </div>
-      <a href="home.html"><i class="material-icons">home</i> Home</a>
-      <a href="localize.html"><i class="material-icons">local_shipping</i> Localize Cargas</a>
-      <a href="cotacao.html"><i class="material-icons">attach_money</i> Cotação</a>
-      <a href="financeiro.html"><i class="material-icons">insert_chart</i> Financeiro</a>
-      <a href="estoque.html"><i class="material-icons">warehouse</i> Estoque Armazém</a>
-      <a href="index.html"><i class="material-icons">exit_to_app</i> Sair</a>
+      <a href="home.html" class="menu-item"><i class="material-icons">home</i>Home</a>
+      <a href="localize.html" class="menu-item"><i class="material-icons">local_shipping</i>Localize Cargas</a>
+      <a href="https://www.mantranweb.com.br" class="menu-item"><i class="material-icons">receipt_long</i>Web Faturas</a>
+      <div class="menu-item"><i class="material-icons">warehouse</i>Estoque Armazém</div>
+      <a href="cotacao.html" class="menu-item"><i class="material-icons">attach_money</i>Cotação</a>
+      <a href="financeiro.html" class="menu-item"><i class="material-icons">insert_chart</i>Financeiro</a>
+      <a href="operacional.html" class="menu-item"><i class="material-icons">local_shipping</i>Operacional</a>
+      <a href="index.html" class="menu-item"><i class="material-icons">exit_to_app</i>Sair</a>
     </div>
 
     <div class="main">
-      <div class="topbar">Estoque Armazém</div>
+      <div class="topbar">
+        <button id="menuButton"><i class="material-icons">menu</i></button>
+        <h1 style="margin-left: 15px; font-size: 20px;">Cotação de Frete</h1>
+      </div>
+
       <div class="content">
-        <div class="list" id="productList"></div>
-        <div class="chart-container">
-          <canvas id="chart"></canvas>
+        <h2>Informe os dados para cotação</h2>
+        <div class="form-group">
+          <label for="classeVeiculo">Classe do Veículo:</label>
+          <select id="classeVeiculo">
+            <option value="" disabled selected>Selecione o veículo</option>
+            <option>MOTO</option>
+            <option>FIORINO</option>
+            <option>VUC</option>
+            <option>TOCO</option>
+            <option>TRUCK</option>
+            <option>CAVALO MECANICO</option>
+            <option>VEICULO PASSEIO</option>
+            <option>CARRETA</option>
+            <option>3/4</option>
+            <option>VAN</option>
+            <option>HR</option>
+          </select>
         </div>
+        <div class="form-group">
+          <label for="peso">Peso (kg):</label>
+          <input type="number" id="peso" placeholder="Ex: 150" />
+        </div>
+        <div class="form-group">
+          <label for="origem">Cidade de Origem:</label>
+          <input type="text" id="origem" placeholder="Ex: São Paulo" />
+        </div>
+        <div class="form-group">
+          <label for="destino">Cidade de Destino:</label>
+          <input type="text" id="destino" placeholder="Ex: Rio de Janeiro" />
+        </div>
+        <div class="form-group">
+          <button onclick="calcularFrete()">Calcular</button>
+        </div>
+        <div class="resultado" id="resultado"></div>
       </div>
     </div>
   </div>
 
   <script>
-    const products = [
-      { code: "8102480606", desc: "100 SBOS", qtd: 1000 },
-      { code: "GUC101446", desc: "483528 ZAW17 BIOMBO 3 FOLHAS", qtd: 900 },
-      { code: "808838104", desc: "SKU 808838104 - BOLSA - ALCA T", qtd: 1000 },
-      { code: "204901-1", desc: "680407", qtd: 963000 },
-      { code: "204905-1", desc: "680408", qtd: 943000 },
-      { code: "204906-1", desc: "680410", qtd: 481000 },
-      { code: "8087726925", desc: "A BEAUTY BLOTT - IVORY", qtd: 9000 },
-      { code: "807564092", desc: "A MOUILLETTES KIT500", qtd: 1000 },
-      { code: "ARMCHAI-01", desc: "POLTRONA ESTRUTURA METAL", qtd: 8000 },
-    ];
+    const sidebar = document.getElementById('sidebar');
+    const menuButton = document.getElementById('menuButton');
 
-    const totalQtd = products.reduce((acc, item) => acc + item.qtd, 0);
-
-    const listContainer = document.getElementById("productList");
-    const ctx = document.getElementById("chart").getContext("2d");
-
-    products.forEach((p, index) => {
-      const div = document.createElement("div");
-      div.className = "item";
-      div.textContent = `${p.code} - ${p.desc} (${p.qtd})`;
-      div.addEventListener("click", () => showChart(p));
-      listContainer.appendChild(div);
+    menuButton.addEventListener('click', function (e) {
+      e.stopPropagation();
+      sidebar.classList.toggle('active');
     });
 
-    let chart;
+    document.addEventListener('click', function (event) {
+      if (!sidebar.contains(event.target) && event.target !== menuButton) {
+        sidebar.classList.remove('active');
+      }
+    });
 
-    function showChart(product) {
-      const percent = ((product.qtd / totalQtd) * 100).toFixed(2);
-      const data = {
-        labels: [`${product.desc}`, 'Outros Itens'],
-        datasets: [{
-          data: [product.qtd, totalQtd - product.qtd],
-          backgroundColor: ['#8B0000', '#ccc']
-        }]
-      };
+    function calcularFrete() {
+      const classeVeiculo = document.getElementById('classeVeiculo').value;
+      const peso = parseFloat(document.getElementById('peso').value);
+      const origem = document.getElementById('origem').value.trim();
+      const destino = document.getElementById('destino').value.trim();
+      const resultado = document.getElementById('resultado');
 
-      if (chart) {
-        chart.destroy();
+      if (!classeVeiculo) {
+        resultado.textContent = "Selecione a classe do veículo.";
+        resultado.style.color = "red";
+        return;
       }
 
-      chart = new Chart(ctx, {
-        type: 'pie',
-        data: data,
-        options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              position: 'bottom',
-            },
-            title: {
-              display: true,
-              text: `${product.desc} ocupa ${percent}% do Armazém`
-            }
-          }
-        }
-      });
+      if (!peso || !origem || !destino) {
+        resultado.textContent = "Preencha todos os campos corretamente.";
+        resultado.style.color = "red";
+        return;
+      }
+
+      // Aqui você pode ajustar o cálculo conforme a classe do veículo, por enquanto é fixo
+      const preco = (peso * 0.75 + 50).toFixed(2);
+      const prazoDias = 3; // Simulação de prazo fixo
+
+      resultado.style.color = "green";
+      resultado.innerHTML = `
+        Veículo: <strong>${classeVeiculo}</strong><br/>
+        Frete de <strong>R$ ${preco}</strong> para entrega de <strong>${origem}</strong> até <strong>${destino}</strong>.<br/>
+        Prazo estimado de entrega: <strong>${prazoDias} dias úteis</strong>.
+      `;
     }
   </script>
 </body>
