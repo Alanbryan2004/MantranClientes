@@ -31,12 +31,17 @@
       left: 0;
       height: 100vh;
       z-index: 999;
-      transform: translateX(-100%);
       transition: transform 0.3s ease;
     }
-    .sidebar.active {
-      transform: translateX(0);
+    @media (max-width: 767px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      .sidebar.active {
+        transform: translateX(0);
+      }
     }
+
     .sidebar-header {
       background: linear-gradient(to right, #8B0000, #000000);
       color: white;
@@ -60,14 +65,20 @@
       margin-right: 10px;
       color: #8B0000;
     }
+
     .main {
       flex: 1;
-      margin-left: 0;
-      width: 100%;
+      margin-left: 250px;
       transition: margin-left 0.3s ease;
       position: relative;
       z-index: 1;
     }
+    @media (max-width: 767px) {
+      .main {
+        margin-left: 0;
+      }
+    }
+
     .topbar {
       background: linear-gradient(to right, #8B0000, #000000);
       color: white;
@@ -82,6 +93,12 @@
       z-index: 998;
       height: 60px;
     }
+    @media (min-width: 768px) {
+      .topbar {
+        left: 250px;
+        width: calc(100% - 250px);
+      }
+    }
     .topbar button {
       background: none;
       border: none;
@@ -90,6 +107,7 @@
       cursor: pointer;
       margin-left: 10px;
     }
+
     .content {
       margin-top: 80px;
       padding: 20px;
@@ -134,11 +152,6 @@
       margin-top: 20px;
       font-size: 18px;
       text-align: center;
-    }
-    @media (min-width: 768px) {
-      .main { margin-left: 250px; }
-      .topbar { left: 250px; }
-      .sidebar { transform: translateX(0); }
     }
   </style>
 </head>
@@ -239,9 +252,8 @@
         return;
       }
 
-      // Aqui você pode ajustar o cálculo conforme a classe do veículo, por enquanto é fixo
       const preco = (peso * 0.75 + 50).toFixed(2);
-      const prazoDias = 3; // Simulação de prazo fixo
+      const prazoDias = 3;
 
       resultado.style.color = "green";
       resultado.innerHTML = `
