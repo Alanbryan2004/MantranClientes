@@ -1,277 +1,233 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Estoque Armazém</title>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Estoque Armazém</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+<style>
+  * {
+    box-sizing: border-box;
+  }
 
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #8B0000, #000000);
-      color: #ffffff;
-      height: 100vh;
-    }
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #8B0000, #000000);
+    color: #ffffff;
+    height: 100vh;
+  }
 
-    .container {
-      display: flex;
-      height: 100%;
-      width: 100%;
-      flex-direction: row;
-    }
+  .container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: row;
+  }
 
+  .sidebar {
+    width: 250px;
+    background-color: #ffffff;
+    color: #000000;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 999; /* fica acima da main e topbar */
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  .sidebar-header {
+    background: linear-gradient(to right, #8B0000, #000000);
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .sidebar-header img {
+    width: 60px;
+    margin-bottom: 10px;
+  }
+
+  .menu-item {
+    margin: 20px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #000000;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .menu-item i {
+    margin-right: 10px;
+    color: #8B0000;
+  }
+
+  .main {
+    flex: 1;
+    margin-left: 0; /* SEM alteração quando abre a sidebar */
+    width: 100%; /* sempre ocupa 100% */
+    transition: margin-left 0.3s ease;
+    position: relative;
+    z-index: 1; /* menor que a sidebar */
+  }
+
+  .topbar {
+    background: linear-gradient(to right, #8B0000, #000000);
+    color: white;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    width: 100%; /* SEM alteração quando abre a sidebar */
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 998; /* abaixo da sidebar */
+    height: 60px;
+  }
+
+  .topbar button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+
+  .content {
+    margin-top: 60px;
+    padding: 20px;
+  }
+
+  .item {
+    background: #fff;
+    color: #000;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* No desktop a sidebar fica sempre visível */
+  @media (min-width: 768px) {
     .sidebar {
-      width: 250px;
-      background-color: #1a1a1a;
-      position: fixed;
-      height: 100%;
-      z-index: 30; /* Aumentei aqui */
-      transform: translateX(-100%);
-      transition: transform 0.3s ease;
-    }
-
-    .sidebar.active {
       transform: translateX(0);
     }
-
-    .sidebar-header {
-      background: linear-gradient(to right, #8B0000, #000000);
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-
-    .sidebar-header img {
-      width: 60px;
-      margin-bottom: 10px;
-    }
-
-    .menu-item {
-      margin: 20px;
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-      color: #ffffff;
-      font-weight: 500;
-    }
-
-    .menu-item i {
-      margin-right: 10px;
-    }
-
     .main {
-      margin-left: 0;
-      width: 100%;
-      transition: margin-left 0.3s ease;
+      margin-left: 250px;
+      width: calc(100% - 250px);
     }
-
     .topbar {
-      background: linear-gradient(to right, #8B0000, #000000);
-      color: white;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      width: 100%;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 20;
-      height: 60px;
-      transition: left 0.3s ease, width 0.3s ease;
+      left: 250px;
+      width: calc(100% - 250px);
     }
-
-    .topbar button {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 24px;
-      cursor: pointer;
-      margin-left: 10px;
-    }
-
-    .content {
-      margin-top: 70px;
-      padding: 20px;
-    }
-
-    .item {
-      background: #fff;
-      color: #000;
-      border-radius: 10px;
-      padding: 15px;
-      margin-bottom: 10px;
-      cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 100;
-      left: 0;
-      top: 0;
-      width: 100vw;
-      height: 100vh;
-      background-color: rgba(0, 0, 0, 0.8);
-      justify-content: center;
-      align-items: center;
-    }
-
-    .modal-content {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      width: 90%;
-      max-width: 400px;
-      color: #000;
-      position: relative;
-    }
-
-    .close {
-      position: absolute;
-      top: 10px;
-      right: 15px;
-      font-size: 24px;
-      cursor: pointer;
-    }
-
-    canvas {
-      max-width: 100%;
-    }
-
-    @media (min-width: 768px) {
-      .sidebar {
-        transform: translateX(0);
-        z-index: 30; /* garantir em telas maiores */
-      }
-
-      .main {
-        margin-left: 250px;
-        width: calc(100% - 250px);
-      }
-
-      .topbar {
-        left: 250px;
-        width: calc(100% - 250px);
-      }
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
   <div class="container">
-    <div class="sidebar" id="sidebar">
+    <nav class="sidebar" id="sidebar">
       <div class="sidebar-header">
         <img src="logo.png" alt="Logo Mantran" />
         <h2>José Marcio Ruiz</h2>
         <p>C149</p>
       </div>
-      <div class="menu-item"><i class="material-icons">local_shipping</i>Localize Cargas</div>
-      <div class="menu-item"><i class="material-icons">receipt_long</i>Web Faturas</div>
-      <div class="menu-item"><i class="material-icons">warehouse</i>Estoque Armazém</div>
-      <div class="menu-item"><i class="material-icons">attach_money</i>Cotação</div>
+      <a href="#" class="menu-item"><i class="material-icons">local_shipping</i>Localize Cargas</a>
+      <a href="#" class="menu-item"><i class="material-icons">receipt_long</i>Web Faturas</a>
+      <a href="#" class="menu-item"><i class="material-icons">warehouse</i>Estoque Armazém</a>
+      <a href="#" class="menu-item"><i class="material-icons">attach_money</i>Cotação</a>
       <a href="index.html" class="menu-item"><i class="material-icons">exit_to_app</i>Sair</a>
-    </div>
+    </nav>
 
-    <div class="main">
-      <div class="topbar">
+    <main class="main">
+      <header class="topbar">
         <button id="menuButton"><i class="material-icons">menu</i></button>
         <h1 style="margin-left: 15px; font-size: 20px;">Estoque Armazém</h1>
-      </div>
+      </header>
 
-      <div class="content" id="estoqueLista">
+      <section class="content" id="estoqueLista" style="margin-top: 70px;">
         <div class="item" onclick="mostrarGrafico('Produto A', 40)">Produto A <strong>40 un.</strong></div>
         <div class="item" onclick="mostrarGrafico('Produto B', 30)">Produto B <strong>30 un.</strong></div>
         <div class="item" onclick="mostrarGrafico('Produto C', 20)">Produto C <strong>20 un.</strong></div>
         <div class="item" onclick="mostrarGrafico('Produto D', 10)">Produto D <strong>10 un.</strong></div>
-      </div>
-    </div>
+      </section>
+    </main>
   </div>
 
-  <!-- Modal com gráfico -->
-  <div class="modal" id="graficoModal">
-    <div class="modal-content">
-      <span class="close" onclick="fecharModal()">&times;</span>
+  <!-- Modal -->
+  <div class="modal" id="graficoModal" style="display:none;position:fixed;z-index:1000;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.8);justify-content:center;align-items:center;">
+    <div class="modal-content" style="background:#fff;color:#000;border-radius:10px;padding:20px;max-width:400px;position:relative;">
+      <span class="close" onclick="fecharModal()" style="position:absolute;top:10px;right:15px;cursor:pointer;font-size:24px;">&times;</span>
       <h3 id="graficoTitulo">Gráfico de Estoque</h3>
       <canvas id="graficoPizza"></canvas>
     </div>
   </div>
 
-  <script>
-    const modal = document.getElementById("graficoModal");
-    const titulo = document.getElementById("graficoTitulo");
-    const ctx = document.getElementById("graficoPizza").getContext("2d");
-    const sidebar = document.getElementById("sidebar");
-    const menuButton = document.getElementById("menuButton");
-    const main = document.querySelector('.main');
-    const topbar = document.querySelector('.topbar');
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const modal = document.getElementById("graficoModal");
+  const titulo = document.getElementById("graficoTitulo");
+  const ctx = document.getElementById("graficoPizza").getContext("2d");
+  const sidebar = document.getElementById("sidebar");
+  const menuButton = document.getElementById("menuButton");
 
-    let chart;
+  let chart;
 
-    function mostrarGrafico(produto, quantidade) {
-      const total = 40 + 30 + 20 + 10;
-      const percentual = ((quantidade / total) * 100).toFixed(1);
+  function mostrarGrafico(produto, quantidade) {
+    const total = 40 + 30 + 20 + 10;
+    const percentual = ((quantidade / total) * 100).toFixed(1);
 
-      titulo.innerText = `${produto} - ${percentual}% do estoque`;
-      if (chart) chart.destroy();
+    titulo.innerText = `${produto} - ${percentual}% do estoque`;
+    if (chart) chart.destroy();
 
-      chart = new Chart(ctx, {
-        type: 'pie',
-        data: {
-          labels: [produto, 'Outros'],
-          datasets: [{
-            data: [quantidade, total - quantidade],
-            backgroundColor: ['#8B0000', '#ccc']
-          }]
-        }
-      });
-
-      modal.style.display = "flex";
-    }
-
-    function fecharModal() {
-      modal.style.display = "none";
-    }
-
-    window.onclick = function(event) {
-      if (event.target == modal) {
-        fecharModal();
-      }
-    }
-
-    menuButton.addEventListener('click', function (e) {
-      e.stopPropagation();
-      sidebar.classList.toggle('active');
-
-      if(sidebar.classList.contains('active')) {
-        main.style.marginLeft = '250px';
-        topbar.style.left = '250px';
-        topbar.style.width = 'calc(100% - 250px)';
-      } else {
-        main.style.marginLeft = '0';
-        topbar.style.left = '0';
-        topbar.style.width = '100%';
+    chart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: [produto, 'Outros'],
+        datasets: [{
+          data: [quantidade, total - quantidade],
+          backgroundColor: ['#8B0000', '#ccc']
+        }]
       }
     });
 
-    document.addEventListener('click', function (event) {
-      if (!sidebar.contains(event.target) && event.target !== menuButton) {
-        sidebar.classList.remove('active');
-        main.style.marginLeft = '0';
-        topbar.style.left = '0';
-        topbar.style.width = '100%';
-      }
-    });
-  </script>
+    modal.style.display = "flex";
+  }
+
+  function fecharModal() {
+    modal.style.display = "none";
+  }
+
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      fecharModal();
+    }
+  }
+
+  menuButton.addEventListener('click', function(e) {
+    e.stopPropagation();
+    sidebar.classList.toggle('active');
+  });
+
+  document.addEventListener('click', function(event) {
+    if (!sidebar.contains(event.target) && event.target !== menuButton) {
+      sidebar.classList.remove('active');
+    }
+  });
+</script>
 </body>
 </html>
